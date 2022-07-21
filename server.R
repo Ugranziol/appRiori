@@ -362,28 +362,20 @@ output$example2=renderUI({
     fname=sub(".csv$", "", basename(input$file1$name))
     cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
     cat(sep = "\n")
+    h = hypr(faktor())
+    hypr_call = as.expression(as.call(c(list(as.name("hypr")), formula(h), list(levels = levels(h)))))
     if(input$cont=="Customized"){
-      cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncol( cmat(hypr(faktor()))),")","=",faktor2()))
+      cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncol( cmat(h)),")","=",faktor2()))
     }else{
       cat(paste0("contrasts(",fname,"$",input$in1,")","=",faktor2()))
     }
     cat(sep = "\n")
     cat(paste0("########### with hypr package"))
     cat(sep = "\n")
-    if(input$cont=="Customized"){
-      unlst=unlist(faktor())
-      
-      cat(paste("h <- hypr(",paste(unlst,collapse=","),")"))
-      cat(sep = "\n")
-      cat(paste0("contrasts(",fname,"$",input$in1,")",
-                 "=","cmat(h)"))
-    }else{
-        cat(paste0("h <- hypr()"))
-        cat(sep = "\n")
-        cat(paste0("cmat(h)","<-",faktor2())) 
-        cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$in1,")","=","cmat(h)"))
-    }
+    cat(paste0("h <- ",as.character(hypr_call)))
+    cat(sep = "\n")
+    cat(paste0("contrasts(",fname,"$",input$in1,")",
+               "=","cmat(h)"))
 
     
     
