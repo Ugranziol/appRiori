@@ -48,6 +48,7 @@ output$example2=renderUI({
 })
 
 ############## Reactive element that takes as input the uploaded data.frame 
+updateSelectInput(session, "default_data", choices = default_data_labels())
  mydf=reactive({
     req(input$file1)
     mydf_0=read.table(input$file1$datapath,

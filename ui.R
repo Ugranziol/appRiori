@@ -27,43 +27,61 @@ ui = navbarPage("appRiori",
     tabPanel("Data", 
              sidebarLayout(
                sidebarPanel(
-                 
-                 
-                 
-                fileInput("file1", "Choose CSV File",
-                                multiple = FALSE,
-                                accept = c("text/csv",
-                               "text/comma-separated-values,text/plain",
-                                                                ".csv")),
-                 
-                 tags$hr(),
-                 
-                 
-                 checkboxInput("header", "Header", TRUE),
-                 
-                 
-                 radioButtons("sep", "Separator",
-                              choices = c(Comma = ",",
-                                          Semicolon = ";",
-                                          Tab = "\t"),
-                              selected = ";"),
-                 
-                 
-                 radioButtons("quote", "Quote",
-                              choices = c(None = "",
-                                          "Double Quote" = '"',
-                                          "Single Quote" = "'"),
+                 radioButtons("data_type", "Which dataset to use?",
+                              choices = c("Preinstalled/default dataset" = "preinstalled",
+                                          "Upload own data (CSV file)" = "upload"),
                               selected = NULL),
                  
                  
-                 radioButtons("deci", "Decimal",
-                              choices = c("Comma" = ',',
-                                          "Period" = '.'),
-                              selected = '.'),
                  
                  
                  tags$hr(),
                  
+                 conditionalPanel("input.data_type == 'preinstalled'",
+
+                                  selectInput("default_data", "Default dataset", NULL),
+
+                  ),
+
+
+                 conditionalPanel("input.data_type == 'upload'",
+
+                                  fileInput("file1", "Choose CSV File",
+                                            multiple = FALSE,
+                                            accept = c("text/csv",
+                                                       "text/comma-separated-values,text/plain",
+                                                       ".csv")),
+
+                                  tags$hr(),
+
+
+                                  checkboxInput("header", "Header", TRUE),
+
+
+                                  radioButtons("sep", "Separator",
+                                               choices = c(Comma = ",",
+                                                           Semicolon = ";",
+                                                           Tab = "\t"),
+                                               selected = ";"),
+
+
+                                  radioButtons("quote", "Quote",
+                                               choices = c(None = "",
+                                                           "Double Quote" = '"',
+                                                           "Single Quote" = "'"),
+                                               selected = NULL),
+
+
+                                  radioButtons("deci", "Decimal",
+                                               choices = c("Comma" = ',',
+                                                           "Period" = '.'),
+                                               selected = '.')
+
+
+                  ),
+
+                 tags$hr(),
+
                  checkboxGroupInput("show_vars", "Columns to show:",
                                     choices = NULL, selected = NULL)
                  
