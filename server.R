@@ -5,6 +5,25 @@ library(pracma)
 library(dplyr)
 library(utils)
 
+##############  Functions for loading default datasets
+
+load_default_data <- function(id) {
+  id <- strsplit(id, ":", TRUE)[[1]]
+  do.call("::", as.list(id))
+}
+
+
+default_data_labels <- function() {
+  default_datasets <- utils::data()$results
+  default_datasets <- default_datasets[order(default_datasets[,"Title"]),]
+  default_datasets[,"Item"] <- gsub("^([^(]+)( \\(.*)?$","\\1",default_datasets[,"Item"])
+  datasets_select_labels <- sprintf("%s:%s", default_datasets[,"Package"], default_datasets[,"Item"])
+  names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], default_datasets[,"Item"])
+  datasets_select_labels[vapply(datasets_select_labels, function(id) {
+    df <- load_default_data(id)
+    if(is.data.frame(df)) any(apply(df, 2, function(x) is.character(x) || is.factor(x))) else FALSE
+  }, logical(1))]
+}
 
 ##############  Function aimed to find the greatest common divisor of a vector or n X 1 matrix
 gcd_vector <- function(x) Reduce(gcd, x)
@@ -33,15 +52,31 @@ output$example2=renderUI({
 })
 
 ############## Reactive element that takes as input the uploaded data.frame 
+updateSelectInput(session, "default_data", choices = default_data_labels())
  mydf=reactive({
-    req(input$file1)
-    mydf_0=read.table(input$file1$datapath,
-           header = input$header,
-           sep = input$sep,
-           quote = input$quote,
-           dec=input$deci)
-    return(mydf_0)
-    })
+   if(input$data_type == "upload") {
+     req(input$file1)
+     mydf_0=read.table(input$file1$datapath,
+                       header = input$header,
+                       sep = input$sep,
+                       quote = input$quote,
+                       dec=input$deci)
+   } else if(input$data_type == "preinstalled") {
+     req(input$default_data)
+     mydf_0 <- as.data.frame(load_default_data(input$default_data))
+   }
+   return(mydf_0)
+  })
+
+ mydfname = reactive({
+   if(input$data_type == "upload") {
+     req(input$file1)
+     gsub("\\.csv$", "", basename(input$file1$file))
+   } else if(input$data_type == "preinstalled") {
+     req(input$default_data)
+     gsub("^.*:", "", input$default_data)
+   }
+ })
 
 
 
@@ -77,7 +112,7 @@ output$example2=renderUI({
 ############## Chunk of code that allows to select only "character" or "factor" variables
   observe({
 
-    x=mydf()[, sapply(mydf(), class) %in% c('character', 'factor')]
+    x=mydf() %>% select_if(~is.factor(.)|is.character(.))
 
     # 
     updateSelectInput(session, "in1",
@@ -359,7 +394,7 @@ output$example2=renderUI({
   
   ############## The following lines prints the code corresponding to the solution planned by the user. 
   output$res=renderPrint({
-    fname=sub(".csv$", "", basename(input$file1$name))
+    fname=mydfname()
     cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
     cat(sep = "\n")
     h = hypr(faktor())
@@ -948,7 +983,7 @@ output$example2=renderUI({
  ############## The following lines prints the "ready-to-use" code corresponding to the solution planned by the user.
    
    output$res_int=renderPrint({
-    fname=sub(".csv$", "", basename(input$file1$name))
+    fname=mydfname()
     a=mydf()
     if(input$radio== 'Two way'){
       cat(paste0(fname,"$",input$v1,"=","factor(",fname,"$",input$v1,")"))
