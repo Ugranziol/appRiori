@@ -15,6 +15,7 @@ load_default_data <- function(id) {
 
 default_data_labels <- function() {
   default_datasets <- utils::data()$results
+  default_datasets <- default_datasets[order(default_datasets[,"Title"]),]
   default_datasets[,"Item"] <- gsub("^([^(]+)( \\(.*)?$","\\1",default_datasets[,"Item"])
   datasets_select_labels <- sprintf("%s:%s", default_datasets[,"Package"], default_datasets[,"Item"])
   names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], default_datasets[,"Item"])
