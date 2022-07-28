@@ -112,7 +112,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 ############## Chunk of code that allows to select only "character" or "factor" variables
   observe({
 
-    x=mydf()[, sapply(mydf(), class) %in% c('character', 'factor')]
+    x=mydf() %>% select_if(~is.factor(.)|is.character(.))
 
     # 
     updateSelectInput(session, "in1",
