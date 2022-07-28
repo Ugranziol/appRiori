@@ -68,6 +68,16 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
    return(mydf_0)
   })
 
+ mydfname = reactive({
+   if(input$data_type == "upload") {
+     req(input$file1)
+     gsub("\\.csv$", "", basename(input$file1$file))
+   } else if(input$data_type == "preinstalled") {
+     req(input$default_data)
+     gsub("^.*:", "", input$default_data)
+   }
+ })
+
 
 
 ############## After the data frame is uploaded, this chunk of code updates the check box that stores the data.frame's variable
@@ -384,7 +394,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   
   ############## The following lines prints the code corresponding to the solution planned by the user. 
   output$res=renderPrint({
-    fname=sub(".csv$", "", basename(input$file1$name))
+    fname=mydfname()
     cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
     cat(sep = "\n")
     if(input$cont=="Customized"){
@@ -981,7 +991,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
  ############## The following lines prints the "ready-to-use" code corresponding to the solution planned by the user.
    
    output$res_int=renderPrint({
-    fname=sub(".csv$", "", basename(input$file1$name))
+    fname=mydfname()
     a=mydf()
     if(input$radio== 'Two way'){
       cat(paste0(fname,"$",input$v1,"=","factor(",fname,"$",input$v1,")"))
