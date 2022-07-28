@@ -19,7 +19,10 @@ default_data_labels <- function() {
   default_datasets[,"Item"] <- gsub("^([^(]+)( \\(.*)?$","\\1",default_datasets[,"Item"])
   datasets_select_labels <- sprintf("%s:%s", default_datasets[,"Package"], default_datasets[,"Item"])
   names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], default_datasets[,"Item"])
-  datasets_select_labels[vapply(datasets_select_labels, function(id) is.data.frame(load_default_data(id)), logical(1))]
+  datasets_select_labels[vapply(datasets_select_labels, function(id) {
+    df <- load_default_data(id)
+    if(is.data.frame(df)) any(apply(df, 2, function(x) is.character(x) || is.factor(x))) else FALSE
+  }, logical(1))]
 }
 
 ##############  Function aimed to find the greatest common divisor of a vector or n X 1 matrix
