@@ -25,6 +25,10 @@ default_data_labels <- function() {
   }, logical(1))]
 }
 
+hypr_call <- function(h) {
+  as.expression(as.call(c(list(as.name("hypr")), formula(h), list(levels = levels(h)))))
+}
+
 ##############  Function aimed to find the greatest common divisor of a vector or n X 1 matrix
 gcd_vector <- function(x) Reduce(gcd, x)
 
@@ -398,7 +402,6 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
     cat(sep = "\n")
     h = hypr(faktor())
-    hypr_call = as.expression(as.call(c(list(as.name("hypr")), formula(h), list(levels = levels(h)))))
     if(input$cont=="Customized"){
       cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncol( cmat(h)),")","=",faktor2()))
     }else{
@@ -407,7 +410,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     cat(sep = "\n")
     cat(paste0("########### with hypr package"))
     cat(sep = "\n")
-    cat(paste0("h <- ",as.character(hypr_call)))
+    cat(paste0("h <- ",as.character(hypr_call(h))))
     cat(sep = "\n")
     cat(paste0("contrasts(",fname,"$",input$in1,")",
                "=","cmat(h)"))
@@ -966,6 +969,30 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   })
   
   
+  faktorV1_hypr=reactive({
+    a=mydf()
+    fattore=factor(a[,input$v1])
+    mat=eval(parse(text=faktorV1()))
+    rownames(mat)=levels(fattore)
+    hypr(mat)
+  })
+
+  faktorV2_hypr=reactive({
+    a=mydf()
+    fattore=factor(a[,input$v2])
+    mat=eval(parse(text=faktorV2()))
+    rownames(mat)=levels(fattore)
+    hypr(mat)
+  })
+
+  faktorV3_hypr=reactive({
+    a=mydf()
+    fattore=factor(a[,input$v3])
+    mat=eval(parse(text=faktorV3()))
+    rownames(mat)=levels(fattore)
+    hypr(mat)
+  })
+
   ##############.. or when a "Fully customized" option has been selected..
    faktor2_int=reactive({
       h <- hypr(facktor_int())
@@ -991,19 +1018,18 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(paste0(fname,"$",input$v2,"=","factor(",fname,"$",input$v2,")"))
       cat(sep = "\n")
       if(input$fc2==TRUE){
-      cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
-                 fname,"$",input$v2,", sep = '_'",")"))
-      cat(sep = "\n")
-      cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(input$hm2),")","=",faktor2_int()))
-      cat(sep = "\n")
-      cat(paste0("########### with hypr package"))
-      cat(sep = "\n")
-      cat(paste0("h <- hypr()"))
-      cat(sep = "\n")
-      cat(paste0("cmat(h)","<-",faktor2_int()))
-      cat(sep = "\n")
-      cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
-                 "=","cmat(h)"))
+        cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
+                   fname,"$",input$v2,", sep = '_'",")"))
+        cat(sep = "\n")
+        cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(input$hm2),")","=",faktor2_int()))
+        cat(sep = "\n")
+        cat(paste0("########### with hypr package"))
+        cat(sep = "\n")
+        h <- hypr(facktor_int())
+        cat(paste0("h <- ", hypr_call(h)))
+        cat(sep = "\n")
+        cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
+                   "=","cmat(h)"))
       }else{
         cat(paste0("contrasts(",fname,"$",input$v1,")",
                    "=",faktorV1()))
@@ -1020,17 +1046,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         }
         cat(paste0("########### with hypr package"))
         cat(sep = "\n")
-        cat(paste0("h_",input$v1, "<- hypr()"))
-        cat(sep = "\n")
-        cat(paste0("cmat(h_",input$v1,")","<-",faktorV1()))
+        cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
         cat(sep = "\n")
-        cat(paste0("h_",input$v2, "<- hypr()"))
-        cat(sep = "\n")
-        cat(paste0("cmat(h_",input$v2,")","<-",faktorV2()))
+        cat(paste0("h_",input$v2, " <- ", hypr_call(faktorV2_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
+        cat(sep = "\n")
         if(input$onlyI==TRUE){
           cat(paste0("h_int <-","h_",input$v1," & ","h_",input$v2))
           cat(sep = "\n")
@@ -1056,9 +1079,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(sep = "\n")
       cat(paste0("########### with hypr package"))
       cat(sep = "\n")
-      cat(paste0("h <- hypr()"))
-      cat(sep = "\n")
-      cat(paste0("cmat(h)","<-",faktor2_int()))
+      cat(paste0("h <- ", hypr_call(hypr(facktor_int()))))
       cat(sep = "\n")
       cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
                  "=","cmat(h)"))
@@ -1083,17 +1104,15 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         }
         cat(paste0("########### with hypr package"))
         cat(sep = "\n")
-        cat(paste0("h <- hypr()"))
-        cat(sep = "\n")
-        cat(paste0("cmat(h)","<-",faktorV1()))
+        cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
         cat(sep = "\n")
-        cat(paste0("cmat(h)","<-",faktorV2()))
+        cat(paste0("h_",input$v2, " <- ", hypr_call(faktorV2_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
         cat(sep = "\n")
-        cat(paste0("cmat(h_",input$v3,")","<-",faktorV3()))
+        cat(paste0("h_",input$v3, " <- ", hypr_call(faktorV3_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v3,")","=","cmat(h_",input$v3,")"))
         if(input$onlyI==TRUE){
