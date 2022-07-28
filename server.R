@@ -63,7 +63,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
                        dec=input$deci)
    } else if(input$data_type == "preinstalled") {
      req(input$default_data)
-     mydf_0 <- load_default_data(input$default_data)
+     mydf_0 <- as.data.frame(load_default_data(input$default_data))
    }
    return(mydf_0)
   })
