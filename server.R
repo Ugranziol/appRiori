@@ -9,7 +9,7 @@ library(utils)
 
 load_default_data <- function(id) {
   id <- strsplit(id, ":", TRUE)[[1]]
-  eval(substitute(pkg::ds, list(pkg = id[1], ds = id[2])))
+  do.call("::", as.list(id))
 }
 
 
