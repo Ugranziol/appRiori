@@ -75,7 +75,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
  mydfname = reactive({
    if(input$data_type == "upload") {
      req(input$file1)
-     gsub("\\.csv$", "", basename(input$file1$file))
+     gsub("\\.csv$", "", basename(input$file1$name))
    } else if(input$data_type == "preinstalled") {
      req(input$default_data)
      gsub("^.*:", "", input$default_data)
