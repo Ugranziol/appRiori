@@ -1041,6 +1041,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
           cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
                      fname,"$",input$v2,", sep = '_'",")"))
           cat(sep = "\n")
+          cat(paste0("levels(",fname,"$","Planned_interaction)","=","sort(levels(",fname,"$","Planned_interaction))"))
+          cat(sep = "\n")
           cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","=",faktor3_int()))
           cat(sep = "\n")
         }
@@ -1098,6 +1100,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
                      fname,"$",input$v2,",",
                      fname,"$",input$v3,",",
                      ", sep = '_'",")"))
+          cat(sep = "\n")
+          cat(paste0("levels(",fname,"$","Planned_interaction)","=","sort(levels(",fname,"$","Planned_interaction))"))
           cat(sep = "\n")
           cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","=",faktor3_int()))
           cat(sep = "\n")
