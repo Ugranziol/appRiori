@@ -109,7 +109,7 @@ ui = navbarPage("appRiori",
                  
                  
                  tags$hr(),
-                 selectInput('cont', 'Select contrast type', c("Dummy","Deviation","Scaled",
+                 selectInput('cont', 'Select contrast type', c("Treatment","Sum","Scaled",
                                                                "Sliding difference", "Helmert",
                                                                "Reverse Helmert","Polynomial",
                                                                "Customized"), selectize=TRUE),
@@ -197,14 +197,14 @@ ui = navbarPage("appRiori",
                          column(4,
                                 selectInput('v1', 'Select the first variable', c(), selectize=TRUE),
                                 
-                                selectInput('cont1', 'Select the first contrast type', c("Dummy","Deviation","Scaled",
+                                selectInput('cont1', 'Select the first contrast type', c("Treatment","Sum","Scaled",
                                                                               "Sliding difference", "Helmert",
                                                                               "Reverse Helmert","Polynomial"), selectize=TRUE)
                          ),
                          column(4,
                                 selectInput('v2', 'Select the second variable', c(), selectize=TRUE),
                                 
-                                selectInput('cont2', 'Select the second contrast type', c("Dummy","Deviation","Scaled",
+                                selectInput('cont2', 'Select the second contrast type', c("Treatment","Sum","Scaled",
                                                                                "Sliding difference", "Helmert",
                                                                                "Reverse Helmert","Polynomial"), selectize=TRUE)
                          )
@@ -214,7 +214,7 @@ ui = navbarPage("appRiori",
 
                                   selectInput('v3', 'Select the third variable', c(), selectize=TRUE),
 
-                                  selectInput('cont3', 'Select the third contrast type', c("Dummy","Deviation","Scaled",
+                                  selectInput('cont3', 'Select the third contrast type', c("Treatment","Sum","Scaled",
                                                                                  "Sliding difference", "Helmert",
                                                                                  "Reverse Helmert","Polynomial"), selectize=TRUE)
                                 )

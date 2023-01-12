@@ -13,7 +13,7 @@ For this example, we will use the database `anorexia` from the `MASS` package. T
 
 This database contains a categorical variable named $\textit{Treat}$, composed of three levels: "Cont" (control), "CBT" (Cognitive Behavioral Treatment) and "FT" (Family Treatment).
 
-For practical purposes, let's download the dataframe from R. In this way, we will be able to upload it in appRiori.
+For practical purposes, let's download the data from R. In this way, we will be able to upload it in appRiori.
 
 ```{r,eval=FALSE}
 

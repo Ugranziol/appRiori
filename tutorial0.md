@@ -6,7 +6,11 @@ Data Uploading
 
 As a first step, it is required to upload our data. 
 
-The second Panel of appRiori, called "Data", allows to upload a .csv file with raw data.
+The second Panel of appRiori, called "Data", allows to upload data. It is possible to upload:
+
+* All the default databases contained inside the R packages of the user.
+
+* Raw databases contained in the users' computers.
 
 As for the `read.table()` function of R, it is possible to set the type of field separator, decimal and quote. Furthermore, it is possible to set the first row as header or not.
 
@@ -17,7 +21,7 @@ As for the `read.table()` function of R, it is possible to set the type of field
 <p>&nbsp;</p>
 
 
-Once the data have been uploaded, appRiori displays them as a data frame. It is possible to select the number of rows displayed and to search specific values, through the search bar.
+Once the data have been uploaded, appRiori displays them as a data table. It is possible to select the number of rows displayed and to search specific values, through the search bar.
 
 Moreover, it is possible to selected the variables to be shown by checking the corresponding box within the "Column to show" list.
 
@@ -33,7 +37,7 @@ Once data have been uploaded, it is time to explore what appRiori can do!
 
 The first option is to plan contrasts for single variables, by clicking on the "Single variable" button.
 
-The left size of the Panel contains two dropdown menu:
+The left side of the Panel contains two dropdown menu:
 
 * The first menu allows to select one among the categorical variables of the uploaded data frame. Note that appRiori permits to select only variables that are "character" or "factor".
 
@@ -56,11 +60,11 @@ At this point, appRiori displays the following blocks:
 
 * Levels: this block shows the original categories belonging to the selected variables.
 
-* Original contrast matrix: the simplified contrast matrix produced by default in R, after converting the selected variable into factor. It corresponds to `contrasts(factor(test$G))` command.
+* Original contrast matrix: the contrast matrix produced by default in R, after converting the selected variable into factor. It corresponds to `contrasts(factor(test$G))` command.
 
-* New contrast matrix: the simplified contrast matrix corresponding to the hypothesis we have. It corresponds to `contrasts(factor(test$G))=MASS:sdif(3)` command.
+* New contrast matrix: the contrast matrix corresponding to the hypothesis we have. It corresponds to `contrasts(factor(test$G))=MASS:sdif(3)` command.
 
-* Hypothesis matrix: it is a simplified contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020).
+* Hypothesis matrix: it is a contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020).
 
 * A correlation matrix displaying the relationship among the new contrasts. 
 
@@ -74,7 +78,7 @@ We need to simply click on the submit button, and will obtain a snippet of code 
 
 * The assignment of the desired contrast matrix to the original one.
 
-* If you are a (beginner) user or a fan of the `hypr` package (CIT), the same operation coded by the previous two lines according to this package. Briefly, an empty `hypr` object called $h$ is created; then the new contrast matrix is assigned to the `cmat()` function. Finally, the result of this latter code is assigned to the `contrasts()` function referred to our target variable.
+* If you are a (beginner) user or a fan of the `hypr` package (Rabe et al., 2020), the same operation coded by the previous two lines according to this package. Briefly, an empty `hypr` object called $h$ is created; then the new contrast matrix is assigned to the `cmat()` function. Finally, the result of this latter code is assigned to the `contrasts()` function referred to our target variable.
 
 
 Plan contrasts for interactions
@@ -92,7 +96,7 @@ Suppose, for instance, that we want to understand if the planned contrasts set f
 
 As a first step, we select from the menu located on upper left of the page the option "Two way". 
 
-Then, we select the G variable in the first dropdown menu. We select also the sliding difference contrast in the corresponding dropdown menu (located under the one aimed at selecting the related variable). We do the same for the second variable, but selecting dummy contrasts.
+Then, we select the G variable in the first dropdown menu. We select also the sliding difference contrast in the corresponding dropdown menu (located under the one aimed at selecting the related variable). We do the same for the second variable, but selecting treatment contrasts.
 
 The outputs will be displayed as follows:
 
@@ -105,7 +109,7 @@ The outputs will be displayed as follows:
 
 * Levels: we can see two column vectors, displaying the levels of both variable (i.e., __g1__, __g2__ and __g3__ for variable Gamma and __a1__ and __a2__ for variable Alpha).
 
-* Original contrast matrix: the simplified contrast matrix (produced by default from R), codes both variable as dummy contrasts. The second and the third columns code the contrasts for variable G. The fourth column codes the contrasts for variable A. The last two columns code the interaction, by multiplying the columns encoding the contrasts of G by the column encoding the contrast of A (Remember the golden rules of contrasts coding!!). 
+* Original contrast matrix: the contrast matrix (produced by default from R), codes both variable as treatment contrasts. The second and the third columns code the contrasts for variable G. The fourth column codes the contrasts for variable A. The last two columns code the interaction, by multiplying the columns encoding the contrasts of G by the column encoding the contrast of A (Remember the golden rules of contrasts coding!!). 
 * New contrast matrix: the same logic is applied for this matrix, with the contrasts selected __a priori__.
 * Hypothesis matrix: as for the new contrast matrix, we can observe how to code our hypothesis. Note that the header of this matrix (as the rows' names of the new contrast matrix), is composed by the interaction among levels of both variables (i.e., $3 \times 2$). 
 
@@ -120,6 +124,6 @@ Are you interested only in contrasts related to interaction. Just flag on the "O
 Plan your customized contrasts
 ------------------------------
 
-The problem: what if we have hypothesis that cannot be tested through the standard contrasts provided by R?
+The problem: what if we have hypothesEs that cannot be tested through the standard contrasts provided by R?
 
-The solution: appRiori is programmed to plan customized contrasts and to provide the corresponding easy-to-use code. In the next panel, a possible way to customize contrast is described, after the standard contrasts.
+The solution: appRiori is programmed to plan customized contrasts and to provide the corresponding easy-to-use code. In the next panel, a possible way to customize contrasts is described, after the default contrasts.

@@ -243,9 +243,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktor=reactive({
     a=mydf()
     fattore=factor(a[,input$in1])
-    if(input$cont=="Dummy"){
+    if(input$cont=="Treatment"){
       contrasts(fattore)
-    }else if(input$cont=="Deviation"){
+    }else if(input$cont=="Sum"){
       contrasts(fattore)=contr.sum(length(levels(fattore)))
       contrasts(fattore)
     }else if(input$cont=="Scaled"){
@@ -303,11 +303,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       if(is.list(faktor())){
         h <- hypr(faktor())
         cm=cmat(h)
-        colnames(cm)=paste("C #", 1:ncol(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
         print(cm)
       }else{
         cm=faktor() 
-        colnames(cm)=paste("C #", 1:ncol(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
         print(cm)
       }},error=function(e){ 
         print("Waiting..")
@@ -321,7 +321,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       h <- hypr(faktor())
       hm=hmat(h)
-      rownames(hm)=paste("C #", 1:nrow(hm))
+      rownames(hm)=paste("C", 1:nrow(hm),sep = "")
       print(hm)     
     },error=function(e){
       print("Waiting..")
@@ -335,13 +335,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       if(is.list(faktor())){
         h <- hypr(faktor())
         cm=cor(cmat(h))
-        colnames(cm)=paste("C #", 1:ncol(cm))
-        rownames(cm)=paste("C #", 1:nrow(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
+        rownames(cm)=paste("C", 1:nrow(cm),sep = "")
         print(round(cm,2))
       }else{
         cm=cor(faktor())
-        colnames(cm)=paste("C #", 1:ncol(cm))
-        rownames(cm)=paste("C #", 1:nrow(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
+        rownames(cm)=paste("C", 1:nrow(cm),sep = "")
         print(round(cm,2))
       }},error=function(e){
         print("Waiting..")
@@ -375,9 +375,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktor2=reactive({
     a=mydf()
     fattore=factor(a[,input$in1])
-    if(input$cont=="Dummy"){
+    if(input$cont=="Treatment"){
       paste0("contr.treatment(",length(levels(fattore)),")")
-    }else if(input$cont=="Deviation"){
+    }else if(input$cont=="Sum"){
       paste0("contr.sum(",length(levels(fattore)),")")
     }else if(input$cont=="Scaled"){
       paste0("contr.sum(",length(levels(fattore)),")","/",length(levels(fattore)))
@@ -616,13 +616,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
       
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C #",1:(ncol(Xctr)-1))
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
       
       if(input$onlyI==TRUE){
         int_values=(size1-1)+(size2-1)+(size3-1)+2
         Xctr=cbind(Xctr[,int_values:ncol(Xctr)])
         rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-        colnames(Xctr)=paste("C #",1:(ncol(Xctr)))
+        colnames(Xctr)=paste("C",1:(ncol(Xctr)),sep = "")
       }
       
       
@@ -644,13 +644,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
       
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C #",1:(ncol(Xctr)-1))
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
       
       if(input$onlyI==TRUE){
         int_values=(size1-1)+(size2-1)+2
         Xctr=cbind(Xctr[,int_values:ncol(Xctr)])
         rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-        colnames(Xctr)=paste("C #",1:(ncol(Xctr)))
+        colnames(Xctr)=paste("C",1:(ncol(Xctr)),sep = "")
       }
     }
     Xctr
@@ -663,9 +663,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorS1=reactive({
     a=mydf()
     fattore=factor(a[,input$v1])
-    if(input$cont1=="Dummy"){
+    if(input$cont1=="Treatment"){
       contrasts(fattore)
-    }else if(input$cont1=="Deviation"){
+    }else if(input$cont1=="Sum"){
       contrasts(fattore)=contr.sum(length(levels(fattore)))
       contrasts(fattore)
     }else if(input$cont1=="Scaled"){
@@ -693,9 +693,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorS2=reactive({
     a=mydf()
     fattore=factor(a[,input$v2])
-    if(input$cont2=="Dummy"){
+    if(input$cont2=="Treatment"){
       contrasts(fattore)
-    }else if(input$cont2=="Deviation"){
+    }else if(input$cont2=="Sum"){
       contrasts(fattore)=contr.sum(length(levels(fattore)))
       contrasts(fattore)
     }else if(input$cont2=="Scaled"){
@@ -723,9 +723,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorS3=reactive({
     a=mydf()
     fattore=factor(a[,input$v3])
-    if(input$cont3=="Dummy"){
+    if(input$cont3=="Treatment"){
       contrasts(fattore)
-    }else if(input$cont3=="Deviation"){
+    }else if(input$cont3=="Sum"){
       contrasts(fattore)=contr.sum(length(levels(fattore)))
       contrasts(fattore)
     }else if(input$cont3=="Scaled"){
@@ -783,13 +783,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
       
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C #",1:(ncol(Xctr)-1))
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
       
       if(input$onlyI==TRUE){
         int_values=(size1-1)+(size2-1)+(size3-1)+2
         Xctr=cbind(Xctr[,int_values:ncol(Xctr)])
         rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-        colnames(Xctr)=paste("C #",1:(ncol(Xctr)))
+        colnames(Xctr)=paste("C",1:(ncol(Xctr)),sep = "")
       }
       
       Xctr
@@ -811,13 +811,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
       
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C #",1:(ncol(Xctr)-1))
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
       
       if(input$onlyI==TRUE){
         int_values=(size1-1)+(size2-1)+2
         Xctr=cbind(Xctr[,int_values:ncol(Xctr)])
         rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-        colnames(Xctr)=paste("C #",1:(ncol(Xctr)))
+        colnames(Xctr)=paste("C",1:(ncol(Xctr)),sep = "")
       }
       Xctr
     }
@@ -838,7 +838,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       if(input$fc2==TRUE){
         mat=facktor_int()
-        colnames(mat)=paste("C #",1:(ncol(mat)))
+        colnames(mat)=paste("C",1:(ncol(mat)),sep = "")
         mat
       }else{
         cont_mat_int()
@@ -854,7 +854,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       if(input$fc2==TRUE){
         h <- hypr(facktor_int())
         hm=hmat(h)
-        rownames(hm)=paste("C #",1:(nrow(hm)))
+        rownames(hm)=paste("C",1:(nrow(hm)),sep = "")
         print(hm)
       }else{
         h <- hypr(cont_mat_int())
@@ -871,14 +871,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       if(input$fc2==TRUE){
         cm=cor(facktor_int())
-        colnames(cm)=paste("C #", 1:ncol(cm))
-        rownames(cm)=paste("C #", 1:nrow(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
+        rownames(cm)=paste("C", 1:nrow(cm),sep = "")
         print(round(cm,2))
       }else{
         cm=cor(cont_mat_int())
         if(input$onlyI==FALSE){cm=cm[-1,-1]}
-        colnames(cm)=paste("C #", 1:ncol(cm))
-        rownames(cm)=paste("C #", 1:nrow(cm))
+        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
+        rownames(cm)=paste("C", 1:nrow(cm),sep = "")
         print(round(cm,2))
       }},error=function(e){
         print("Waiting..")
@@ -908,9 +908,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorV1=reactive({
     a=mydf()
     fattore=factor(a[,input$v1])
-    if(input$cont1=="Dummy"){
+    if(input$cont1=="Treatment"){
       paste0("contr.treatment(",length(levels(fattore)),")")
-    }else if(input$cont1=="Deviation"){
+    }else if(input$cont1=="Sum"){
       paste0("contr.sum(",length(levels(fattore)),")")
     }else if(input$cont1=="Scaled"){
       paste0("contr.sum(",length(levels(fattore)),")","/",length(levels(fattore)))
@@ -929,9 +929,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorV2=reactive({
     a=mydf()
     fattore=factor(a[,input$v2])
-    if(input$cont2=="Dummy"){
+    if(input$cont2=="Treatment"){
       paste0("contr.treatment(",length(levels(fattore)),")")
-    }else if(input$cont2=="Deviation"){
+    }else if(input$cont2=="Sum"){
       paste0("contr.sum(",length(levels(fattore)),")")
     }else if(input$cont2=="Scaled"){
       paste0("contr.sum(",length(levels(fattore)),")","/",length(levels(fattore)))
@@ -950,9 +950,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   faktorV3=reactive({
     a=mydf()
     fattore=factor(a[,input$v3])
-    if(input$cont3=="Dummy"){
+    if(input$cont3=="Treatment"){
       paste0("contr.treatment(",length(levels(fattore)),")")
-    }else if(input$cont3=="Deviation"){
+    }else if(input$cont3=="Sum"){
       paste0("contr.sum(",length(levels(fattore)),")")
     }else if(input$cont3=="Scaled"){
       paste0("contr.sum(",length(levels(fattore)),")","/",length(levels(fattore)))
