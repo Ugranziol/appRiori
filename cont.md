@@ -8,7 +8,7 @@ In R, the contrast matrix of a specific variable can be observed by using the `c
 
 Moreover, it is possible to create or assign a contrast matrix to each variable by using the ``contrasts.'' family of functions. The following paragraphs will describe the kind of contrasts that can be generated in R and how can they be interpreted.
 
-## Dummy contrasts
+## Treatment contrasts
 
 
 
@@ -26,9 +26,9 @@ contr.treatment(4)
 
 
 
-Assumed $n$ levels of a categorical variable, in case of dummy contrasts (or treatment contrasts), the aim is to compare $n-1$ levels to a level chosen as reference or baseline. 
+Assumed $n$ levels of a categorical variable, in case of treatment contrasts (or dummy coding), the aim is to compare $n-1$ levels to a level chosen as reference or baseline. 
 
-In R, the contrast matrix for dummy contrasts is `contr.treatment()`, setting as argument the number of levels of the variable of interest. In this case, $n = 4$.
+In R, the contrast matrix for treatment contrasts is `contr.treatment()`, setting as argument the number of levels of the variable of interest. In this case, $n = 4$.
 
 NB: in R, the reference level is automatically assigned to the first level in alphabetical order. In case of levels coded with alphanumerical string, the reference will be the one containing the lowest number.
 
@@ -49,8 +49,6 @@ contr.sum(3)
 
 In sum (or deviation) contrasts, the aim is to compare the $n-1$ levels with the overall mean of those levels. 
 
-If $n=2$, we are testing half of the difference among between levels. If $n>2$, we are testing half of the difference among one level with the overall mean that will be represented by the last level of our variable.
-
 In R, the overall mean will be assigned always to the last level in alphabetical order, coded as $\textbf{-1}$. In case of levels coded with alphanumerical string, the reference will be the one containing the highest number. The level to be compared is coded with $\textbf{1}$ and the others with $\textbf{0}$. In R, the contrast matrix for sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest.
 
 ## Scaled sum contrasts
@@ -68,11 +66,11 @@ contr.sum(3)/3
 ## 3 -0.3333333 -0.3333333
 ```
 
-In scaled sum contrasts, the aim is similar to sum contrast. The difference is that in case of scaled sum contrast, we test the entire difference among levels (not the half one). In R, the contrast matrix for scaled sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest and dividing the function by the same number.
+In scaled sum contrasts, the aim is similar to sum contrast. The difference is that in the case of scaled sum contrasts, contrasts weights are scaled over the number of levels of the variable itself. In R, the contrast matrix for scaled sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest and dividing the function by the same number.
 
 Formal note: Dividing a contrast by the number of factor level is an operation also called $\textbf{centering the contrasts}$. 
 
-Centering is an advantageous choices especially when coding a priori hypothesis on interactions. Centering contrasts, in fact, enhances orthogonality of contrasts (Schad et al., 2020). 
+Centering is an advantageous choices especially when coding a priori hypothesis on interactions and in case the are other (scaled) covariates in the model. Centering contrasts, in fact, enhances orthogonality of contrasts (Schad et al., 2020). 
 
 It is possible to center all the type of contrasts in R. With appRiori, the Customized contrasts are centered by default!
 
@@ -136,7 +134,7 @@ In R, the contrast matrix for helmert contrasts is `contr.helmert()`, setting as
 
 With appRiori, it is possible to use also further types of contrasts:
 
-* Inverse helmert contrasts
+* Reverse helmert contrasts
 * Customized contrasts: Set your customized contrasts by using a drag-and-drop menu.
 
 
@@ -159,8 +157,8 @@ In appRiori, you contrast by using a dran-and-drop menu.
 
 Suppose, for instance, that we have a variable called "C", composed by five categories (i.e., c0, c1, c2, c3, c4). Assume now that c0 corresponds to a neutral condition. We could be interested in planning __a priori__ two comparisons:
 
-* The condition c0 against all the others taken together (i.e., c0 $\textit{vs}$ (c1+c2+c3+c4))
-* Excluding c0, the former two conditions with the latter two (i.e., (c1+c2) $\textit{vs}$ (c3+c4))
+* The condition c0 against (the average of) all the others taken together (i.e., c0 $\textit{vs}$ (c1+c2+c3+c4))
+* Excluding c0, the (average of) former two conditions with the (average of) latter two (i.e., (c1+c2) $\textit{vs}$ (c3+c4))
 
 This can be done in appRiori following these steps:
 
@@ -188,6 +186,10 @@ The code corresponding to this procedure is.
 <img src="www/c1_code.png" alt="drawing" width="1200"/>
 </center>
 
-Up to now, appRiori is programmed to set contrast based on default contrasts and the drag and drop menu. For other fancy ways to customize the..stay tuned!!
+Up to now, appRiori is programmed to set contrast based on default contrasts and the drag and drop menu. 
 
-In the next panels,two examples are provided, aimed at explaining how to (1) plan the contrasts, (2) use them into a regression model and (3) interpret the results!
+This logic can be also applied for more than one variable, as in case of interactions!
+
+For other fancy ways to customize the..stay tuned!!
+
+In the next panels, two examples are provided, aimed at explaining how to (1) plan the contrasts, (2) use them into a regression model and (3) interpret the results!

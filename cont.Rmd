@@ -139,6 +139,10 @@ The code corresponding to this procedure is.
 <img src="www/c1_code.png" alt="drawing" width="1200"/>
 </center>
 
-Up to now, appRiori is programmed to set contrast based on default contrasts and the drag and drop menu. For other fancy ways to customize the..stay tuned!!
+Up to now, appRiori is programmed to set contrast based on default contrasts and the drag and drop menu. 
+
+This logic can be also applied for more than one variable, as in case of interactions!
+
+For other fancy ways to customize the..stay tuned!!
 
 In the next panels, two examples are provided, aimed at explaining how to (1) plan the contrasts, (2) use them into a regression model and (3) interpret the results!

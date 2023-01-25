@@ -111,15 +111,8 @@ The outputs will be displayed as follows:
 
 * Original contrast matrix: the contrast matrix (produced by default from R), codes both variable as treatment contrasts. The second and the third columns code the contrasts for variable G. The fourth column codes the contrasts for variable A. The last two columns code the interaction, by multiplying the columns encoding the contrasts of G by the column encoding the contrast of A (Remember the golden rules of contrasts coding!!). 
 * New contrast matrix: the same logic is applied for this matrix, with the contrasts selected __a priori__.
-* Hypothesis matrix: as for the new contrast matrix, we can observe how to code our hypothesis. Note that the header of this matrix (as the rows' names of the new contrast matrix), is composed by the interaction among levels of both variables (i.e., $3 \times 2$). 
+* Hypothesis matrix: as for the new contrast matrix, we can observe how to code our hypothesis. Note that the header of this matrix (as the rows' names of the new contrast matrix), is composed by the interaction among levels of both variables (i.e., $3 \times 2$). To be coherent with the new contrast matrix, even the hypothesis matrix is transposed.
 
-Are you interested only in contrasts related to interaction. Just flag on the "Only Interaction" box and obtain them!
-
-<p>&nbsp;</p>
-<center>
-<img src="www/onlyI.png" alt="drawing" width="1200"/>
-</center>
-<p>&nbsp;</p> 
 
 Plan your customized contrasts
 ------------------------------

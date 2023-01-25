@@ -121,8 +121,10 @@ ui = navbarPage("appRiori",
                  hr(),
                  tags$h3("Correlation matrix"),
                  verbatimTextOutput("cormat"),
-                 tags$h3("Check for linear dependence"),
-                 verbatimTextOutput(outputId='contrasts_warnings')
+                 conditionalPanel("input.cont=='Customized'",
+                   tags$h3("Check for linear dependence"),
+                   verbatimTextOutput(outputId='contrasts_warnings'))
+
                ),
 
                
@@ -168,16 +170,16 @@ ui = navbarPage("appRiori",
                selectInput("radio", label = h3("Type of interaction"),
                             choices = c("Two way", "Three way"), 
                            selectize=TRUE),
-               
-               checkboxInput("onlyI", label = "Only Interaction", value = FALSE),
-
-               
+               # 
+               # checkboxInput("onlyI", label = "Only Interaction", value = FALSE),
+               # 
+               # 
                checkboxInput("fc2", label = "Fully customized", value = FALSE),
                
-               conditionalPanel("input.fc2==true && input.onlyI==true",
-                                
-                                span(tags$h4("Please, DEFLAG one option."),style="color:red")
-               ),
+               # conditionalPanel("input.fc2==true && input.onlyI==true",
+               #                  
+               #                  span(tags$h4("Please, DEFLAG one option."),style="color:red")
+               # ),
                
                conditionalPanel("input.fc2==true ",
                                 
@@ -186,8 +188,10 @@ ui = navbarPage("appRiori",
                hr(),
                tags$h3("Correlation matrix"),
                verbatimTextOutput("cormat_int"),
-               tags$h3("Check for linear dependence"),
-               verbatimTextOutput(outputId='contrasts_warnings2')
+               conditionalPanel("input.fc2==true ",
+                 tags$h3("Check for linear dependence"),
+                 verbatimTextOutput(outputId='contrasts_warnings2')
+               )
                
              ),
              
@@ -199,14 +203,14 @@ ui = navbarPage("appRiori",
                                 
                                 selectInput('cont1', 'Select the first contrast type', c("Treatment","Sum","Scaled",
                                                                               "Sliding difference", "Helmert",
-                                                                              "Reverse Helmert","Polynomial"), selectize=TRUE)
+                                                                              "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                          ),
                          column(4,
                                 selectInput('v2', 'Select the second variable', c(), selectize=TRUE),
                                 
                                 selectInput('cont2', 'Select the second contrast type', c("Treatment","Sum","Scaled",
                                                                                "Sliding difference", "Helmert",
-                                                                               "Reverse Helmert","Polynomial"), selectize=TRUE)
+                                                                               "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                          )
                          ,
                          column(4,
@@ -216,11 +220,35 @@ ui = navbarPage("appRiori",
 
                                   selectInput('cont3', 'Select the third contrast type', c("Treatment","Sum","Scaled",
                                                                                  "Sliding difference", "Helmert",
-                                                                                 "Reverse Helmert","Polynomial"), selectize=TRUE)
+                                                                                 "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                                 )
                          ),
                
-                       
+                         fluidRow(
+                           conditionalPanel("input.cont1=='Customized'",
+                                            h4("Customized Contrasts, first variable"),
+                                            selectInput('ihm1', 'How many comparisons do you want to set?', c(),selectize = T),
+                                            uiOutput("inputGroup.i1")
+                           ),
+                           
+                         ),
+                         
+                         fluidRow(
+                           conditionalPanel("input.cont2=='Customized'",
+                                            h4("Customized Contrasts, second variable"),
+                                            selectInput('ihm2', 'How many comparisons do you want to set?', c(),selectize = T),
+                                            uiOutput("inputGroup.i2")
+                           ),
+                           
+                         ),
+                         fluidRow(
+                           conditionalPanel("input.cont3=='Customized'",
+                                            h4("Customized Contrasts, third variable"),
+                                            selectInput('ihm3', 'How many comparisons do you want to set?', c(),selectize = T),
+                                            uiOutput("inputGroup.i3")
+                           ),
+                           
+                         ),
                          fluidRow(
                                 h3("Levels"),
                                 verbatimTextOutput("lev_int")
