@@ -3,40 +3,38 @@ library(shinythemes)
 library(DT)
 library(rhandsontable)
 library(markdown)
-library(knitr)
-
 
 ui = navbarPage("appRiori",
     theme = shinythemes::shinytheme("yeti"),
-    tabPanel("Introduction", 
+    tabPanel("Introduction",
              navlistPanel("Intro, basics and tutorials",
                           tabPanel("Welcome",
-                                   withMathJax(includeMarkdown("welcome.md"))),
+                                   withMathJax(includeMarkdown(system.file("tutorial","welcome.md",package="appRiori")))),
                           tabPanel("Some theorical aspects",
-                                   withMathJax(includeMarkdown("basics.md"))),
+                                   withMathJax(includeMarkdown(system.file("tutorial","basics.md",package="appRiori")))),
                           tabPanel("How appRiori works",
-                                   withMathJax(includeMarkdown("tutorial0.md"))),
+                                   withMathJax(includeMarkdown(system.file("tutorial","tutorial0.md",package="appRiori")))),
                           tabPanel("Type of contrasts",
-                                   uiOutput('markdown')),
+                                   withMathJax(includeMarkdown(system.file("tutorial","cont.md",package="appRiori")))),
                           tabPanel("Example 1: Single variable",
-                                   uiOutput('example1')),
+                                   withMathJax(includeMarkdown(system.file("tutorial","ex1.md",package="appRiori")))),
                           tabPanel("Example 2: Interactions",
-                                   uiOutput('example2'))
+                                   withMathJax(includeMarkdown(system.file("tutorial","ex2.md",package="appRiori"))))
              )
              ),
-    tabPanel("Data", 
+    tabPanel("Data",
              sidebarLayout(
                sidebarPanel(
                  radioButtons("data_type", "Which dataset to use?",
                               choices = c("Preinstalled/default dataset" = "preinstalled",
                                           "Upload own data (CSV file)" = "upload"),
                               selected = NULL),
-                 
-                 
-                 
-                 
+
+
+
+
                  tags$hr(),
-                 
+
                  conditionalPanel("input.data_type == 'preinstalled'",
 
                                   selectInput("default_data", "Default dataset", NULL),
@@ -84,19 +82,19 @@ ui = navbarPage("appRiori",
 
                  checkboxGroupInput("show_vars", "Columns to show:",
                                     choices = NULL, selected = NULL)
-                 
+
                ),
-               
-               
-               
+
+
+
                mainPanel(
                  h2("Your data"),
-                 
+
                  DT::dataTableOutput("contents"),
-                 
-                 
+
+
                  tags$hr(),
-                 
+
                  h2("Data structure"),
                  verbatimTextOutput("structure")
                )
@@ -106,16 +104,16 @@ ui = navbarPage("appRiori",
              sidebarLayout(
                sidebarPanel(
                  selectInput('in1', 'Select the variable', c(), selectize=TRUE),
-                 
-                 
+
+
                  tags$hr(),
                  selectInput('cont', 'Select contrast type', c("Treatment","Sum","Scaled",
                                                                "Sliding difference", "Helmert",
                                                                "Reverse Helmert","Polynomial",
                                                                "Customized"), selectize=TRUE),
-                 
+
                  conditionalPanel("input.cont=='Customized'",
-                                  
+
                                   selectInput('hm1', 'How many comparisons do you want to set?', c(),selectize = T)
                                   ),
                  hr(),
@@ -127,7 +125,7 @@ ui = navbarPage("appRiori",
 
                ),
 
-               
+
                mainPanel(h2("Contrasts on single variables"),
                  fluidRow(
                    column(3,
@@ -147,42 +145,42 @@ ui = navbarPage("appRiori",
                           verbatimTextOutput("hypmat")
                    )
                  ),
-                 
+
                  fluidRow(
                    conditionalPanel("input.cont== 'Customized'",
                                     uiOutput("inputGroup")),
-                   
-                   
+
+
                    h3("Get your code!!"),
                    actionButton("sub", "Submit"),
                    conditionalPanel("input.sub>0",
                                     verbatimTextOutput("res")
                  )
-                 
+
                )
              )
              )
   ),
-  
+
   tabPanel("Interactions",
            sidebarLayout(
              sidebarPanel(
                selectInput("radio", label = h3("Type of interaction"),
-                            choices = c("Two way", "Three way"), 
+                            choices = c("Two way", "Three way"),
                            selectize=TRUE),
-               # 
+               #
                # checkboxInput("onlyI", label = "Only Interaction", value = FALSE),
-               # 
-               # 
+               #
+               #
                checkboxInput("fc2", label = "Fully customized", value = FALSE),
-               
+
                # conditionalPanel("input.fc2==true && input.onlyI==true",
-               #                  
+               #
                #                  span(tags$h4("Please, DEFLAG one option."),style="color:red")
                # ),
-               
+
                conditionalPanel("input.fc2==true ",
-                                
+
                                 selectInput('hm2', 'How many comparisons do you want to set?', c(),selectize = T)
                ),
                hr(),
@@ -192,22 +190,22 @@ ui = navbarPage("appRiori",
                  tags$h3("Check for linear dependence"),
                  verbatimTextOutput(outputId='contrasts_warnings2')
                )
-               
+
              ),
-             
+
              mainPanel(
                h2("Select you variables"),
-                       
+
                          column(4,
                                 selectInput('v1', 'Select the first variable', c(), selectize=TRUE),
-                                
+
                                 selectInput('cont1', 'Select the first contrast type', c("Treatment","Sum","Scaled",
                                                                               "Sliding difference", "Helmert",
                                                                               "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                          ),
                          column(4,
                                 selectInput('v2', 'Select the second variable', c(), selectize=TRUE),
-                                
+
                                 selectInput('cont2', 'Select the second contrast type', c("Treatment","Sum","Scaled",
                                                                                "Sliding difference", "Helmert",
                                                                                "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
@@ -223,23 +221,23 @@ ui = navbarPage("appRiori",
                                                                                  "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                                 )
                          ),
-               
+
                          fluidRow(
                            conditionalPanel("input.cont1=='Customized'",
                                             h4("Customized Contrasts, first variable"),
                                             selectInput('ihm1', 'How many comparisons do you want to set?', c(),selectize = T),
                                             uiOutput("inputGroup.i1")
                            ),
-                           
+
                          ),
-                         
+
                          fluidRow(
                            conditionalPanel("input.cont2=='Customized'",
                                             h4("Customized Contrasts, second variable"),
                                             selectInput('ihm2', 'How many comparisons do you want to set?', c(),selectize = T),
                                             uiOutput("inputGroup.i2")
                            ),
-                           
+
                          ),
                          fluidRow(
                            conditionalPanel("input.cont3=='Customized'",
@@ -247,7 +245,7 @@ ui = navbarPage("appRiori",
                                             selectInput('ihm3', 'How many comparisons do you want to set?', c(),selectize = T),
                                             uiOutput("inputGroup.i3")
                            ),
-                           
+
                          ),
                          fluidRow(
                                 h3("Levels"),
@@ -265,7 +263,7 @@ ui = navbarPage("appRiori",
                                 h3("Hypothesis matrix"),
                                 verbatimTextOutput("hypmat_int")
                          )
-                         
+
                        ,
 
                        fluidRow(
@@ -278,8 +276,8 @@ ui = navbarPage("appRiori",
                                   conditionalPanel("input.sub2>0",
                                               verbatimTextOutput("res_int"))
 
-                         
-                       
+
+
              )
            )
   )

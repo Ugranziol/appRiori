@@ -1,0 +1,29 @@
+Package: appRiori
+Title: A Web-Based Tool to Understand, Code and Obtain Customized Planned Comparisons for Simple and Interaction Effects
+Version: 0.0.1
+Authors@R:
+    c(
+        person(given = "Umberto", family = "Granziol", email = "umberto.granziol@unipd.it", role = c("aut", "cre")),
+        person(given = "Maximilian", family = "Rabe", email = "maximilian.rabe@uni-potsdam.de", role = c("aut"), comment = c(ORCID = "0000-0002-2556-5644")),
+        person(given = "Andrea", family = "Spoto", email = "andrea.spoto@unipd.it", role = c("aut")),
+        person(given = "Giulio", family = "Vidotto", email = "giulio.vidotto@unipd.it", role = c("aut"))
+    )
+Description: With appRiori, users upload the research variables and the app guides them to the best set of comparisons fitting the hypotheses, for both main and interaction effects. Through a graphical explanation and empirical examples on reproducible data, it is shown that it is possible to understand both the logic behind the planned comparisons and the way to interpret them when a model is tested.
+License: GPL (>= 3)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.1
+URL: https://github.com/Ugranziol/appRiori
+BugReports: https://github.com/Ugranziol/appRiori/issues
+Imports: 
+    dplyr,
+    DT,
+    hypr,
+    markdown,
+    MASS,
+    pracma,
+    rhandsontable,
+    shiny,
+    shinythemes,
+    sortable,
+    stringr
