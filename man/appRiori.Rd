@@ -9,6 +9,9 @@ appRiori(...)
 \arguments{
 \item{...}{Arguments passed on to \code{\link[shiny:runApp]{shiny::runApp()}}}
 }
+\value{
+No return value, called for side effects
+}
 \description{
 This function runs the appRiori Shiny app.
 }

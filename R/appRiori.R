@@ -18,6 +18,8 @@
 #'
 #' @param ... Arguments passed on to \code{\link[shiny:runApp]{shiny::runApp()}}
 #'
+#' @return No return value, called for side effects
+#'
 #' @examples
 #'
 #' \dontrun{
@@ -36,4 +38,5 @@ appRiori <- function(...) {
     stop("Could not find example directory. Try re-installing `appRiori`.", call. = FALSE)
   }
   runApp(appDir = appDir, ...)
+  invisible(NULL)
 }
