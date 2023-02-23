@@ -1,8 +1,8 @@
-library(shiny)
-library(shinythemes)
-library(DT)
-library(rhandsontable)
-library(markdown)
+library(shiny, warn.conflicts = FALSE)
+library(shinythemes, warn.conflicts = FALSE)
+library(DT, warn.conflicts = FALSE)
+library(rhandsontable, warn.conflicts = FALSE)
+library(markdown, warn.conflicts = FALSE)
 
 ui = navbarPage("appRiori",
     theme = shinythemes::shinytheme("yeti"),

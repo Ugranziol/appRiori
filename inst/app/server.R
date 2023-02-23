@@ -1,9 +1,9 @@
-library(hypr)
-library(sortable)
-library(stringr)
-library(pracma)
-library(dplyr)
-library(utils)
+library(hypr, warn.conflicts = FALSE)
+library(sortable, warn.conflicts = FALSE)
+library(stringr, warn.conflicts = FALSE)
+library(pracma, warn.conflicts = FALSE)
+library(dplyr, warn.conflicts = FALSE)
+library(utils, warn.conflicts = FALSE)
 
 ##############  Functions for loading default datasets
 
