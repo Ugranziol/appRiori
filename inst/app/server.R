@@ -680,7 +680,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
             labels =
               levels(fattore)
             ,
-            input_id = inputNamei1
+            input_id = paste(inputNamei1,"_1",sep = "")
           ),
           add_rank_list(
             text = "to here",
@@ -818,7 +818,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
             labels =
               levels(fattore)
             ,
-            input_id = inputNamev
+            input_id = paste(inputNamev, "_2", sep ="")
           ),
           add_rank_list(
             text = "to here",
@@ -955,7 +955,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
             labels =
               levels(fattore)
             ,
-            input_id = inputNamev
+            input_id = paste(inputNamev,"_3",sep="")
           ),
           add_rank_list(
             text = "to here",
