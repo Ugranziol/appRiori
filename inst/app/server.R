@@ -9,16 +9,19 @@ library(utils, warn.conflicts = FALSE)
 
 load_default_data <- function(id) {
   id <- strsplit(id, ":", TRUE)[[1]]
-  do.call("::", as.list(id))
+  e <- new.env()
+  vars <- data(list = id[2], package = id[1], envir = e)
+  e[[id[length(id)]]]
 }
 
 
 default_data_labels <- function() {
   default_datasets <- utils::data()$results
   default_datasets <- default_datasets[order(default_datasets[,"Title"]),]
-  default_datasets[,"Item"] <- gsub("^([^(]+)( \\(.*)?$","\\1",default_datasets[,"Item"])
-  datasets_select_labels <- sprintf("%s:%s", default_datasets[,"Package"], default_datasets[,"Item"])
-  names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], default_datasets[,"Item"])
+  cluster <- gsub("^([^(]+)( \\((.*)\\))?$","\\3",default_datasets[,"Item"])
+  item <- gsub("^([^(]+)( \\((.*)\\))?$","\\1",default_datasets[,"Item"])
+  datasets_select_labels <- ifelse(cluster=="", sprintf("%s:%s", default_datasets[,"Package"], item), sprintf("%s:%s:%s", default_datasets[,"Package"], cluster, item))
+  names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], item)
   datasets_select_labels[vapply(datasets_select_labels, function(id) {
     df <- load_default_data(id)
     if(is.data.frame(df)) any(apply(df, 2, function(x) is.character(x) || is.factor(x))) else FALSE
