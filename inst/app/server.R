@@ -24,7 +24,7 @@ default_data_labels <- function() {
   names(datasets_select_labels) <- sprintf("%s (%s:%s)", default_datasets[,"Title"], default_datasets[,"Package"], item)
   datasets_select_labels[vapply(datasets_select_labels, function(id) {
     df <- load_default_data(id)
-    if(is.data.frame(df)) any(apply(df, 2, function(x) is.character(x) || is.factor(x))) else FALSE
+    is.data.frame(df) && any(apply(df, 2, function(x) is.character(x) || is.factor(x)))
   }, logical(1))]
 }
 
