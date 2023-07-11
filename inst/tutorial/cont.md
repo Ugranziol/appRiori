@@ -32,6 +32,7 @@ In R, the contrast matrix for treatment contrasts is `contr.treatment()`, settin
 
 NB: in R, the reference level is automatically assigned to the first level in alphabetical order. In case of levels coded with alphanumerical string, the reference will be the one containing the lowest number.
 
+
 ## Sum contrasts
 
 

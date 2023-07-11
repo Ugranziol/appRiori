@@ -103,11 +103,11 @@ ui = navbarPage("appRiori",
     tabPanel("Single variable",
              sidebarLayout(
                sidebarPanel(
-                 selectInput('in1', 'Select the variable', c(), selectize=TRUE),
+                 selectInput('in1', h3(strong('Step 1: Select the variable'), style = "font-size:26px;"), c(), selectize=TRUE),
 
 
                  tags$hr(),
-                 selectInput('cont', 'Select contrast type', c("Treatment","Sum","Scaled",
+                 selectInput('cont', h3(strong('Step 2: Select the contrast type'), style = "font-size:26px;"), c("Treatment","Simple","Sum","Scaled",
                                                                "Sliding difference", "Helmert",
                                                                "Reverse Helmert","Polynomial",
                                                                "Customized"), selectize=TRUE),
@@ -117,16 +117,18 @@ ui = navbarPage("appRiori",
                                   selectInput('hm1', 'How many comparisons do you want to set?', c(),selectize = T)
                                   ),
                  hr(),
-                 tags$h3("Correlation matrix"),
+                 tags$h3(strong("Step 3.1: Examine the contrasts correlation matrix"), style = "font-size:26px;"),
                  verbatimTextOutput("cormat"),
                  conditionalPanel("input.cont=='Customized'",
-                   tags$h3("Check for linear dependence"),
-                   verbatimTextOutput(outputId='contrasts_warnings'))
+                   tags$h3(strong("Step 3.1.1: Check for linear dependence"), style = "font-size:26px;"),
+                   verbatimTextOutput(outputId='contrasts_warnings')),
+                 tags$h3(strong("Step 4: Information on your selection"), style = "font-size:26px;"),
+                 verbatimTextOutput("selection")
 
                ),
 
 
-               mainPanel(h2("Contrasts on single variables"),
+               mainPanel(h3(strong("Step 3.0: Watch the results"), style = "font-size:26px;"),
                  fluidRow(
                    column(3,
                           h3("Levels"),
@@ -151,7 +153,7 @@ ui = navbarPage("appRiori",
                                     uiOutput("inputGroup")),
 
 
-                   h3("Get your code!!"),
+                   h3(strong("Step 5: Get your code!!"), style = "font-size:26px;"),
                    actionButton("sub", "Submit"),
                    conditionalPanel("input.sub>0",
                                     verbatimTextOutput("res")
@@ -165,14 +167,14 @@ ui = navbarPage("appRiori",
   tabPanel("Interactions",
            sidebarLayout(
              sidebarPanel(
-               selectInput("radio", label = h3("Type of interaction"),
+               selectInput("radio", label = h3(strong("Step 1: Select the type of design"), style = "font-size:26px;"),
                             choices = c("Two way", "Three way"),
                            selectize=TRUE),
                #
                # checkboxInput("onlyI", label = "Only Interaction", value = FALSE),
                #
                #
-               checkboxInput("fc2", label = "Fully customized", value = FALSE),
+               checkboxInput("fc2", label = h4("Fully customized design"), value = FALSE),
 
                # conditionalPanel("input.fc2==true && input.onlyI==true",
                #
@@ -184,29 +186,31 @@ ui = navbarPage("appRiori",
                                 selectInput('hm2', 'How many comparisons do you want to set?', c(),selectize = T)
                ),
                hr(),
-               tags$h3("Correlation matrix"),
+               tags$h3(strong("Step 4.1: Examine the contrasts correlation matrix"), style = "font-size:26px;"),
                verbatimTextOutput("cormat_int"),
                conditionalPanel("input.fc2==true ",
-                 tags$h3("Check for linear dependence"),
-                 verbatimTextOutput(outputId='contrasts_warnings2')
-               )
+                 tags$h3(strong("Step 4.1.1: Check for linear dependence"), style = "font-size:26px;"),
+                 verbatimTextOutput(outputId='contrasts_warnings2')),
+               tags$h3(strong("Step 5: Information on your selection"), style = "font-size:26px;"),
+               verbatimTextOutput("selection2")
 
              ),
 
              mainPanel(
-               h2("Select you variables"),
+               h3(strong("Step 2: Select your variables"), style = "font-size:26px;"),
 
                          column(4,
-                                selectInput('v1', 'Select the first variable', c(), selectize=TRUE),
+                                selectInput('v1', h4(em('Step 2.1: Select the first variable')), c(), selectize=TRUE),
 
-                                selectInput('cont1', 'Select the first contrast type', c("Treatment","Sum","Scaled",
+
+                                selectInput('cont1', h4(strong('Step 3.1: Select the first contrast type')), c("Treatment","Simple","Sum","Scaled",
                                                                               "Sliding difference", "Helmert",
                                                                               "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                          ),
                          column(4,
-                                selectInput('v2', 'Select the second variable', c(), selectize=TRUE),
+                                selectInput('v2', h4(em('Step 2.2: Select the second variable')), c(), selectize=TRUE),
 
-                                selectInput('cont2', 'Select the second contrast type', c("Treatment","Sum","Scaled",
+                                selectInput('cont2', h4(strong('Step 3.2: Select the second contrast type')), c("Treatment","Simple","Sum","Scaled",
                                                                                "Sliding difference", "Helmert",
                                                                                "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                          )
@@ -214,9 +218,9 @@ ui = navbarPage("appRiori",
                          column(4,
                                 conditionalPanel(condition="input.radio == 'Three way' ",
 
-                                  selectInput('v3', 'Select the third variable', c(), selectize=TRUE),
+                                  selectInput('v3', h4(em('Step 2.3: Select the third variable')), c(), selectize=TRUE),
 
-                                  selectInput('cont3', 'Select the third contrast type', c("Treatment","Sum","Scaled",
+                                  selectInput('cont3', h4(strong('Step 3.3: Select the third contrast type')), c("Treatment","Simple","Sum","Scaled",
                                                                                  "Sliding difference", "Helmert",
                                                                                  "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
                                 )
@@ -247,22 +251,25 @@ ui = navbarPage("appRiori",
                            ),
 
                          ),
+               h3(strong("Step 4: Watch the results"), style = "font-size:26px;"),
                          fluidRow(
+                           column(6,
                                 h3("Levels"),
                                 verbatimTextOutput("lev_int")
                          ),
-                         fluidRow(
+                         column(6,
                                 h3("Original contrast matrix"),
                                 verbatimTextOutput("original_int")
-                         ),
+                         )),
                          fluidRow(
+                           column(6,
                                 h3("New contrast matrix"),
                                 verbatimTextOutput("new_int")
                          ),
-                         fluidRow(
+                         column(6,
                                 h3("Hypothesis matrix"),
                                 verbatimTextOutput("hypmat_int")
-                         )
+                         ))
 
                        ,
 
@@ -271,7 +278,7 @@ ui = navbarPage("appRiori",
                                           uiOutput("inputGroup2")),
                          hr()
                          ),
-                       fluidRow(h3("Get your code!!"),
+                       fluidRow(h3(strong("Step6: Get your code!!"), style = "font-size:26px;"),
                                   actionButton("sub2", "Submit"),
                                   conditionalPanel("input.sub2>0",
                                               verbatimTextOutput("res_int"))
