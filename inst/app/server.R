@@ -546,17 +546,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############ The following code produces the basis of the new contrasts of matrix, based on the option selected. It takes as input all the previous line of code
   facktor_int=reactive({
     y=mydf()
-    name1=(levels(factor(y[,input$v1])))
-    name2=(levels(factor(y[,input$v2])))
+
+    levelnames <- levels(if(input$radio== 'Three way') interaction(factor(y[,input$v1]),factor(y[,input$v2]),factor(y[,input$v3])) else interaction(factor(y[,input$v1]),factor(y[,input$v2])))
+
       reat=unlist(reattivo_int())
-      res=list()
 
-      for (a in 1:length(reat)) {
-        res[[a]]=formula(reat[a])
-      }
+      res = lapply(reat, formula)
 
-      res
-      h=hypr(res)
+      h=hypr(res, levels = levelnames)
       cm=cmat(h)
       cm
 
