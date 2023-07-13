@@ -45,7 +45,7 @@ The left side of the Panel contains two dropdown menu:
 
 <p>&nbsp;</p>
 <center>
-<img src="www/sv_mode.png" alt="drawing" width="1200"/>
+<img src="www/outputshow.png" alt="drawing" width="1200"/>
 </center>
 <p>&nbsp;</p>
 
@@ -67,6 +67,8 @@ At this point, appRiori displays the following blocks:
 * Hypothesis matrix: it is a contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020).
 
 * A correlation matrix displaying the relationship among the new contrasts. 
+
+* A summary of your selection, containing which kind of contrasts have been selected, how do they work and how many comparisons are admissible/selected (in case of customized contrasts).
 
 (If) We are satisfied by the new contrast matrix, so we want to apply it to our data. To do this, we need for the corresponding code in R.
 
