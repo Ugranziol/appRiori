@@ -45,7 +45,7 @@ The centered treatment coding scheme involves centering the variable at
 1/*n*.
 
 More in general, centering involves subtracting the mean value of each
-contrast within the contrast matrix from each element within that
+contrast (within the contrast matrix) from each element within that
 contrast.
 
 The purpose of centering is to shift the contrasts so that they are
@@ -95,11 +95,11 @@ dividing the function by the same number.
 
 Formal note: Dividing a contrast by the number of factor level is an
 operation also called **normalization of the contrasts**. It is a form
-of standardiation of the contrasts.
+of standardization of the contrasts.
 
 Normalizing is an advantageous choices especially when coding a priori
-hypothesis on interactions and in case the are other (scaled) covariates
-in the model.
+hypothesis on interactions, and/or in case there are other (scaled)
+covariates in the model.
 
 It is possible to normalize all the types of contrasts in R. With
 appRiori, the Customized contrasts are normalized by default!

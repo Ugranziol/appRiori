@@ -50,7 +50,7 @@ A commonly used contrast coding scheme is the centered treatment coding, also kn
 
 The centered treatment coding scheme involves centering the variable at $1/n$.
 
-More in general, centering involves subtracting the mean value of each contrast within the contrast matrix from each element within that contrast. 
+More in general, centering involves subtracting the mean value of each contrast (within the contrast matrix) from each element within that contrast. 
 
 The purpose of centering is to shift the contrasts so that they are referenced to a meaningful baseline, typically the grand mean or the overall average. Centering allows to better interpret the effects represented by the contrasts and helps in comparing the effects relative to the baseline.
 
@@ -76,9 +76,9 @@ contr.sum(3)/3
 
 In scaled sum contrasts, the aim is similar to sum contrast. The difference is that in the case of scaled sum contrasts, contrasts weights are scaled over the number of levels of the variable itself. In R, the contrast matrix for scaled sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest and dividing the function by the same number.
 
-Formal note: Dividing a contrast by the number of factor level is an operation also called $\textbf{normalization of the contrasts}$. It is a form of standardiation of the contrasts.
+Formal note: Dividing a contrast by the number of factor level is an operation also called $\textbf{normalization of the contrasts}$. It is a form of standardization of the contrasts.
 
-Normalizing is an advantageous choices especially when coding a priori hypothesis on interactions and in case the are other (scaled) covariates in the model. 
+Normalizing is an advantageous choices especially when coding a priori hypothesis on interactions, and/or in case there are other (scaled) covariates in the model. 
 
 It is possible to normalize all the types of contrasts in R. With appRiori, the Customized contrasts are normalized by default!
 

@@ -38,19 +38,27 @@ The following picture displays how to set and obtain the code corresponding to t
 </center>
 
 
-**Step 1**: Since the Reverse Helmert contrasts cannot be used (the default reference level is CBT and not Cont), we can select the Customized option from the second drop-down menu.
+**Step 1**: Select the variable of interest (Treat).
 
-**Step 2**: Since the hypotheses are two, we set to 2 the number of contrasts (that coincide with the maximum number of contrasts that can be set with our variable..remember the golden rule!).
+**Step 2a**: Since the Reverse Helmert contrasts cannot be used (the default reference level is CBT and not Cont), we can select the Customized option from the second drop-down menu.
 
-**Step 3**: For the first comparison, we drag the 'Cont' level in the middle box, while the other two in the right box. 
+**Step 2b**: Since the hypotheses are two, we set to 2 the number of contrasts (that coincide with the maximum number of contrasts that can be set with our variable..remember the golden rule!).
 
-**Step 4**: For the second comparison, we drag the 'CBT' level to the middle box, while the 'FT' level in the right box.
+**Step 2c**: For the first comparison, we drag the 'Cont' level in the middle box, while the other two in the right box. 
 
-**Step 5**: At that point, we ca see the default, new and hypotheses matrices related to our comparisons.
+**Step 2d**: For the second comparison, we drag the 'CBT' level to the middle box, while the 'FT' level in the right box.
 
-**Step 6**: Let's get our code.
+**Step 3**: At that point, we ca see the default, new and hypotheses matrices related to our comparisons.
 
-**Step 7**: Once we have the code, we can test the hypotheses through a linear regression.
+**Step 3.1**: Let's have a look at the correlation between our contrasts.
+
+**Step 3.1.1**: Let's check that our contrasts are independent.
+
+**Step 4**: A last look to what we selected.
+
+**Step 5**: Let's get our code.
+
+**The end**: Once we have the code, we can test the hypotheses through a linear regression.
 
 
 ```{r}
