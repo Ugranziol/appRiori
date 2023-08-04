@@ -66,7 +66,7 @@ for interaction.
 
 **Step 5**: A final look at what we selected (just to be sure).
 
-**Step 5**: Let’s obtain our code.
+**Step 6**: Let’s obtain our code.
 
 **The end**: Once we have the code, we can test the hypotheses through a
 linear regression (for practical purposes, let’s assume the response
