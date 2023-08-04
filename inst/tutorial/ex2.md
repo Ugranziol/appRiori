@@ -1,4 +1,4 @@
-# An example with with a two-way interaction
+# An example with a two-way interaction
 
 For this example, we will use the database `airquality`. This database,
 contains data referring to daily air quality measurements in New York,

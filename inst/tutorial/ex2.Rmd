@@ -11,7 +11,7 @@ airquality$Month_ch=c(rep("m5_May",31),rep("m6_June",30),rep("m7_July",31),rep("
 write.table(airquality,"airquality.csv",sep = ";",dec = ".",row.names = F,col.names = T)
 ```
 
-# An example with with a two-way interaction 
+# An example with a two-way interaction 
 
 
 For this example, we will use the database `airquality`. This database, contains data referring to daily air quality measurements in New York, from May to September 1973. (see `?airquality` for further information). 
