@@ -1,4 +1,9 @@
 
+---
+output:
+  md_document
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 anorexia=MASS::anorexia #or data("anorexia") if MASS is open in your R/ Rstudio console

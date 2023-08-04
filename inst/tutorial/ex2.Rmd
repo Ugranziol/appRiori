@@ -1,4 +1,9 @@
 
+---
+output:
+  md_document
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 airquality$day_bin=ifelse(airquality$Day<16,"First_half","Second_half")
@@ -47,13 +52,15 @@ The following picture displays how to set and obtain the code corresponding to t
 
 **Step 3**: Then we select the appropriate contrasts for each variable. **Sliding difference** for the first variable and **scaled** for the second (see the __Type of contrasts__ section for further explanation of how such contrasts work).
 
-**Step 4**: At that point, we ca see the default, new and hypotheses matrices related to our comparisons.
+**Step 4**: At that point, we ca see the default, new and hypotheses matrices related to our comparisons. Inside the New contrast matrix, we can see that the column 1,2,3,4 encodes the contrasts for the first main effect (i.e., Month). Columns 5 encodes the contrasts for the second main effect (i.e., day_bin). The last four columns encode the contrasts for interaction.
 
-**Step 5**: Inside the New contrast matrix, we can see that the column 1,2,3,4 encodes the contrasts for the first main effect (i.e., Month). Columns 5 encodes the contrasts for the second main effect (i.e., day_bin). The last four columns encode the contrasts for interaction.
+**Step 4.1**: We can check the correlations among our contrasts.
 
-**Step 6**: Let's obtain our code.
+**Step 5**: A final look at what we selected (just to be sure).
 
-**Step 7**: Once we have the code, we can test the hypotheses through a linear regression (for practical purposes, let's assume the response variable called `Temp` as normally distributed).
+**Step 5**: Let's obtain our code.
+
+**The end**: Once we have the code, we can test the hypotheses through a linear regression (for practical purposes, let's assume the response variable called `Temp` as normally distributed).
 
 
 ```{r}
