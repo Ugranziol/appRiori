@@ -33,6 +33,8 @@ NB: in R, the reference level is automatically assigned to the first level in al
 
 In this case, the first row contains the reference level.
 
+$\textbf{Real-life example}$: Suppose we have two experimental conditions and we want to compare each of them to a control/placebo condition. Treatment contrasts can be very useful!
+
 ## Simple contrasts
 
 
@@ -54,6 +56,8 @@ More in general, centering involves subtracting the mean value of each contrast 
 
 The purpose of centering is to shift the contrasts so that they are referenced to a meaningful baseline, typically the grand mean or the overall average. Centering allows to better interpret the effects represented by the contrasts and helps in comparing the effects relative to the baseline.
 
+$\textbf{Real-life example}$: Suppose we have, again, two experimental conditions and we want to compare each of them to a control/placebo condition. Suppose now that in the model there are some centered covariates. Simple contrasts can be very useful!
+
 ## Sum contrasts
 
 ```{r}
@@ -67,8 +71,10 @@ In R, the overall mean will be assigned always to the last level in alphabetical
 
 In this case, the last row contains the level use to encode and represent the grand mean.
 
-## Scaled sum contrasts
 
+$\textbf{Real-life example}$: Suppose we want to compare the incomes of specific workers with the income of the overall workers of a country. Sum contrasts can be very useful, since one level can represent the grand mean of the population!
+
+## Scaled sum contrasts
 
 ```{r}
 contr.sum(3)/3
@@ -82,6 +88,9 @@ Normalizing is an advantageous choices especially when coding a priori hypothesi
 
 It is possible to normalize all the types of contrasts in R. With appRiori, the Customized contrasts are normalized by default!
 
+
+$\textbf{Real-life example}$: Suppose we have, again, the previous groups of workers. Suppose now that in the model there are some normalized covariates (i.e., the age of each worker). Scaled sum contrasts can be very useful!
+
 ## Repeated contrasts
 
 
@@ -94,6 +103,8 @@ In repeated contrasts (known also as successive difference contrasts or sliding 
 
 For each comparison, the first element will be coded with a negative value, and the other(s) with a positive one. In R, the contrast matrix for repeated contrasts is `contr.sdiff()` of the ``MASS` package, setting as argument the number of levels of the variable of interest.
 
+$\textbf{Real-life example}$: Suppose we want to compare the level of noise detected among three adjacent urban areas of a city. In particular, we want to compare each urban area with its adjacent one. In this case, repeated contrasts are very useful!
+
 ## Polynomial contrasts
 
 ```{r}
@@ -104,6 +115,9 @@ contr.poly(3)
 Polynomial contrasts (or orthogonal polynomial contrasts) are useful to test possible trends of the variable’s levels (i.e., linear, quadratic, cubic etc.). In R, the contrast matrix for polynomial contrasts is `contr.poly()`, setting as argument the number of levels of the variable of interest.
 
 In the case at hand, the first contrast refers to a linear trend. The second contrast represents a quadratic trend.
+
+
+$\textbf{Real-life example}$: Suppose we want to compare the attention skills of three age cluster: Children, Adolescents and Adults. We are interested in understanding if the attention skills can follow a linear trend or a U-shape trend. Polynomial contrasts can be very useful!
 
 ## Helmert contrasts
 
@@ -117,6 +131,8 @@ Helmert contrasts are very useful for variables with $n>2$.
 Assuming $n=3$, the first contrast will encode the difference between the first two levels. The second contrast will encode the difference between the third level to the average of the first two conditions. 
 
 In R, the contrast matrix for helmert contrasts is `contr.helmert()`, setting as argument the number of levels of the variable of interest.
+
+$\textbf{Real-life example}$: Let's consider again the previous three age clusters. Now we are interested in understanding if the attention skills can be different between Children and Adolescents. Finally we want to understand if the attention skills of the non-Adults (i.e., Children and Adolescents taken together) can be different to the adults' attention skills. Helmert contrasts can be very useful!
 
 # What's new in appRiori?
 
@@ -141,6 +157,7 @@ These contrasts consist in the reversed version of the Helmert contrasts. The ca
 
 Assuming $n=3$, the first contrast will encode the difference between the first level with the average of the last two conditions. The second contrast will encode the difference between the last two levels.
 
+$\textbf{Real-life example}$: Suppose to have three soccer teams, A, B and C. Suppose we want to compare the average won competitions of each team, compared to the all the other successive team, taken together. Assuming to start with the team A, we want to compare A __vs__ B and C taken together. Finally we want to compare B __vs__ C won competitions. Reverse helmert contrasts can be very useful!
 # Customized contrasts
 
 In appRiori, you contrast by using a dran-and-drop menu. 

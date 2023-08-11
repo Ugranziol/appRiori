@@ -31,6 +31,10 @@ string, the reference will be the one containing the lowest number.
 
 In this case, the first row contains the reference level.
 
+**Real-life example**: Suppose we have two experimental conditions and
+we want to compare each of them to a control/placebo condition.
+Treatment contrasts can be very useful!
+
 ## Simple contrasts
 
     ##       [,1]  [,2]
@@ -54,6 +58,11 @@ overall average. Centering allows to better interpret the effects
 represented by the contrasts and helps in comparing the effects relative
 to the baseline.
 
+**Real-life example**: Suppose we have, again, two experimental
+conditions and we want to compare each of them to a control/placebo
+condition. Suppose now that in the model there are some centered
+covariates. Simple contrasts can be very useful!
+
 ## Sum contrasts
 
     contr.sum(3)
@@ -76,6 +85,11 @@ of interest.
 
 In this case, the last row contains the level use to encode and
 represent the grand mean.
+
+**Real-life example**: Suppose we want to compare the incomes of
+specific workers with the income of the overall workers of a country.
+Sum contrasts can be very useful, since one level can represent the
+grand mean of the population!
 
 ## Scaled sum contrasts
 
@@ -104,6 +118,11 @@ covariates in the model.
 It is possible to normalize all the types of contrasts in R. With
 appRiori, the Customized contrasts are normalized by default!
 
+**Real-life example**: Suppose we have, again, the previous groups of
+workers. Suppose now that in the model there are some normalized
+covariates (i.e., the age of each worker). Scaled sum contrasts can be
+very useful!
+
 ## Repeated contrasts
 
     MASS::contr.sdif(3)
@@ -124,6 +143,11 @@ value, and the other(s) with a positive one. In R, the contrast matrix
 for repeated contrasts is `contr.sdiff()` of the \``MASS` package,
 setting as argument the number of levels of the variable of interest.
 
+**Real-life example**: Suppose we want to compare the level of noise
+detected among three adjacent urban areas of a city. In particular, we
+want to compare each urban area with its adjacent one. In this case,
+repeated contrasts are very useful!
+
 ## Polynomial contrasts
 
     contr.poly(3)
@@ -142,6 +166,11 @@ of interest.
 In the case at hand, the first contrast refers to a linear trend. The
 second contrast represents a quadratic trend.
 
+**Real-life example**: Suppose we want to compare the attention skills
+of three age cluster: Children, Adolescents and Adults. We are
+interested in understanding if the attention skills can follow a linear
+trend or a U-shape trend. Polynomial contrasts can be very useful!
+
 ## Helmert contrasts
 
     contr.helmert(3)
@@ -159,6 +188,13 @@ between the third level to the average of the first two conditions.
 
 In R, the contrast matrix for helmert contrasts is `contr.helmert()`,
 setting as argument the number of levels of the variable of interest.
+
+**Real-life example**: Let’s consider again the previous three age
+clusters. Now we are interested in understanding if the attention skills
+can be different between Children and Adolescents. Finally we want to
+understand if the attention skills of the non-Adults (i.e., Children and
+Adolescents taken together) can be different to the adults’ attention
+skills. Helmert contrasts can be very useful!
 
 # What’s new in appRiori?
 
@@ -182,7 +218,12 @@ Assuming *n* = 3, the first contrast will encode the difference between
 the first level with the average of the last two conditions. The second
 contrast will encode the difference between the last two levels.
 
-# Customized contrasts
+**Real-life example**: Suppose to have three soccer teams, A, B and C.
+Suppose we want to compare the average won competitions of each team,
+compared to the all the other successive team, taken together. Assuming
+to start with the team A, we want to compare A **vs** B and C taken
+together. Finally we want to compare B **vs** C won competitions.
+Reverse helmert contrasts can be very useful! \# Customized contrasts
 
 In appRiori, you contrast by using a dran-and-drop menu.
 
