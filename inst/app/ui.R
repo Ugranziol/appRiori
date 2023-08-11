@@ -289,7 +289,7 @@ ui = navbarPage("appRiori",
                        fluidRow(
                          hr()
                          ),
-                       fluidRow(h3(strong("Step6: Get your code!!"), style = "font-size:26px;"),
+                       fluidRow(h3(strong("Step 6: Get your code!!"), style = "font-size:26px;"),
                                   actionButton("sub2", "Submit"),
                                   conditionalPanel("input.sub2>0",
                                               verbatimTextOutput("res_int"))

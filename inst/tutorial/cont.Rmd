@@ -1,4 +1,9 @@
 
+---
+output:
+  md_document
+---
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
@@ -14,7 +19,7 @@ Moreover, it is possible to create or assign a contrast matrix to each variable 
 
 
 ```{r}
-contr.treatment(4)
+contr.treatment(3)
 ```
 
 
@@ -26,7 +31,28 @@ In R, the contrast matrix for treatment contrasts is `contr.treatment()`, settin
 NB: in R, the reference level is automatically assigned to the first level in alphabetical order. In case of levels coded with alphanumerical string, the reference will be the one containing the lowest number.
 
 
-For example, in this case, the level $1$ is the reference level.
+In this case, the first row contains the reference level.
+
+## Simple contrasts
+
+
+```{r,echo=FALSE}
+nLevels=3
+dummy <- contr.treatment(nLevels)
+dimnames(dummy) <- NULL
+coding <- matrix(rep(1/nLevels, prod(dim(dummy))), ncol=nLevels-1)
+s_cod <- round((dummy - coding),2)
+s_cod
+```
+
+
+A commonly used contrast coding scheme is the centered treatment coding, also known as the ``Simple'' contrasts. 
+
+The centered treatment coding scheme involves centering the variable at $1/n$.
+
+More in general, centering involves subtracting the mean value of each contrast (within the contrast matrix) from each element within that contrast. 
+
+The purpose of centering is to shift the contrasts so that they are referenced to a meaningful baseline, typically the grand mean or the overall average. Centering allows to better interpret the effects represented by the contrasts and helps in comparing the effects relative to the baseline.
 
 ## Sum contrasts
 
@@ -35,9 +61,11 @@ contr.sum(3)
 ```
 
 
-In sum (or deviation) contrasts, the aim is to compare the $n-1$ levels with the overall mean of those levels. 
+In sum (or deviation) contrasts, the aim is to compare the $n-1$ levels with the grand mean of those levels. 
 
 In R, the overall mean will be assigned always to the last level in alphabetical order, coded as $\textbf{-1}$. In case of levels coded with alphanumerical string, the reference will be the one containing the highest number. The level to be compared is coded with $\textbf{1}$ and the others with $\textbf{0}$. In R, the contrast matrix for sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest.
+
+In this case, the last row contains the level use to encode and represent the grand mean.
 
 ## Scaled sum contrasts
 
@@ -48,11 +76,11 @@ contr.sum(3)/3
 
 In scaled sum contrasts, the aim is similar to sum contrast. The difference is that in the case of scaled sum contrasts, contrasts weights are scaled over the number of levels of the variable itself. In R, the contrast matrix for scaled sum contrasts is `contr.sum()`, setting as argument the number of levels of the variable of interest and dividing the function by the same number.
 
-Formal note: Dividing a contrast by the number of factor level is an operation also called $\textbf{centering the contrasts}$. 
+Formal note: Dividing a contrast by the number of factor level is an operation also called $\textbf{normalization of the contrasts}$. It is a form of standardization of the contrasts.
 
-Centering is an advantageous choices especially when coding a priori hypothesis on interactions and in case the are other (scaled) covariates in the model. Centering contrasts, in fact, enhances orthogonality of contrasts (Schad et al., 2020). 
+Normalizing is an advantageous choices especially when coding a priori hypothesis on interactions, and/or in case there are other (scaled) covariates in the model. 
 
-It is possible to center all the type of contrasts in R. With appRiori, the Customized contrasts are centered by default!
+It is possible to normalize all the types of contrasts in R. With appRiori, the Customized contrasts are normalized by default!
 
 ## Repeated contrasts
 
@@ -75,6 +103,8 @@ contr.poly(3)
 
 Polynomial contrasts (or orthogonal polynomial contrasts) are useful to test possible trends of the variable’s levels (i.e., linear, quadratic, cubic etc.). In R, the contrast matrix for polynomial contrasts is `contr.poly()`, setting as argument the number of levels of the variable of interest.
 
+In the case at hand, the first contrast refers to a linear trend. The second contrast represents a quadratic trend.
+
 ## Helmert contrasts
 
 ```{r}
@@ -82,7 +112,9 @@ contr.helmert(3)
 ```
 
 
-Helmert contrasts are very useful for variables with $n>2$. Assuming $n=3$, the first contrast will encode the difference between the first two levels. The second contrast will encode the difference between the third level to the average of the first two conditions. 
+Helmert contrasts are very useful for variables with $n>2$. 
+
+Assuming $n=3$, the first contrast will encode the difference between the first two levels. The second contrast will encode the difference between the third level to the average of the first two conditions. 
 
 In R, the contrast matrix for helmert contrasts is `contr.helmert()`, setting as argument the number of levels of the variable of interest.
 
@@ -105,7 +137,9 @@ tmp0.2
 ```
 
 
-These contrasts consist in the reversed version of the Helmert contrasts. The can be very useful for variables with $n>2$. Assuming $n=3$, the first contrast will encode the difference between the first level with the average of the last two conditions. The second contrast will encode the difference between the last two levels.
+These contrasts consist in the reversed version of the Helmert contrasts. The can be very useful for variables with $n>2$.
+
+Assuming $n=3$, the first contrast will encode the difference between the first level with the average of the last two conditions. The second contrast will encode the difference between the last two levels.
 
 # Customized contrasts
 

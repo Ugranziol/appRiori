@@ -12,7 +12,7 @@ Description: With 'appRiori', users upload the research variables and the app gu
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 URL: https://github.com/Ugranziol/appRiori
 BugReports: https://github.com/Ugranziol/appRiori/issues
 Imports: 

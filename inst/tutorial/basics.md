@@ -35,7 +35,7 @@ The design matrix X can be simplified into the following contrast matrix:
 <p>&nbsp;</p>
 
 <center>
-<img src="www/tab1.png" alt="drawing" width="200"/>
+<img src="www/tab1.png" alt="drawing" width="180"/>
 </center>
 <p>&nbsp;</p>
  -----------------------
@@ -55,7 +55,7 @@ The simplified contrast matrix is:
 
 <p>&nbsp;</p>
 <center>
-<img src="www/tab3.png" alt="drawing" width="200"/>
+<img src="www/tab3.png" alt="drawing" width="180"/>
 </center>
 <p>&nbsp;</p>
 

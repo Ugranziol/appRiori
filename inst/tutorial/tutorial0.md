@@ -8,9 +8,9 @@ As a first step, it is required to upload our data.
 
 The second Panel of appRiori, called "Data", allows to upload data. It is possible to upload:
 
-* All the default databases contained inside the R packages of the user.
+* All the default databases contained inside the R packages.
 
-* Raw databases contained in the users' computers.
+* Raw databases contained in our computers.
 
 As for the `read.table()` function of R, it is possible to set the type of field separator, decimal and quote. Furthermore, it is possible to set the first row as header or not.
 
@@ -45,7 +45,7 @@ The left side of the Panel contains two dropdown menu:
 
 <p>&nbsp;</p>
 <center>
-<img src="www/sv_mode.png" alt="drawing" width="1200"/>
+<img src="www/outputshow.png" alt="drawing" width="1200"/>
 </center>
 <p>&nbsp;</p>
 
@@ -67,6 +67,8 @@ At this point, appRiori displays the following blocks:
 * Hypothesis matrix: it is a contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020).
 
 * A correlation matrix displaying the relationship among the new contrasts. 
+
+* A summary of our selection, containing which kind of contrasts have been selected, how do they work and how many comparisons are admissible/selected (in case of customized contrasts).
 
 (If) We are satisfied by the new contrast matrix, so we want to apply it to our data. To do this, we need for the corresponding code in R.
 
@@ -107,9 +109,9 @@ The outputs will be displayed as follows:
 <p>&nbsp;</p> 
 
 
-* Levels: we can see two column vectors, displaying the levels of both variable (i.e., __g1__, __g2__ and __g3__ for variable Gamma and __a1__ and __a2__ for variable Alpha).
+* Levels: we can see two column vectors, displaying the levels of both variable (i.e., __g1__, __g2__ and __g3__ for variable G and __a1__ and __a2__ for variable A).
 
-* Original contrast matrix: the contrast matrix (produced by default from R), codes both variable as treatment contrasts. The second and the third columns code the contrasts for variable G. The fourth column codes the contrasts for variable A. The last two columns code the interaction, by multiplying the columns encoding the contrasts of G by the column encoding the contrast of A (Remember the golden rules of contrasts coding!!). 
+* Original contrast matrix: the contrast matrix (produced by default from R) codes both variable as treatment contrasts. The second and the third columns code the contrasts for variable G. The fourth column codes the contrasts for variable A. The last two columns code the interaction, by multiplying the columns encoding of the contrasts of G by the column encoding of the contrast of A (Remember the golden rules of contrasts coding!!). 
 * New contrast matrix: the same logic is applied for this matrix, with the contrasts selected __a priori__.
 * Hypothesis matrix: as for the new contrast matrix, we can observe how to code our hypothesis. Note that the header of this matrix (as the rows' names of the new contrast matrix), is composed by the interaction among levels of both variables (i.e., $3 \times 2$). To be coherent with the new contrast matrix, even the hypothesis matrix is transposed.
 
@@ -117,6 +119,6 @@ The outputs will be displayed as follows:
 Plan your customized contrasts
 ------------------------------
 
-The problem: what if we have hypothesEs that cannot be tested through the standard contrasts provided by R?
+The problem: what if we have hypotheses that cannot be tested through the standard contrasts provided by R?
 
 The solution: appRiori is programmed to plan customized contrasts and to provide the corresponding easy-to-use code. In the next panel, a possible way to customize contrasts is described, after the default contrasts.
