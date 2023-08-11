@@ -181,10 +181,6 @@ ui = navbarPage("appRiori",
                #                  span(tags$h4("Please, DEFLAG one option."),style="color:red")
                # ),
 
-               conditionalPanel("input.fc2==true ",
-
-                                selectInput('hm2', 'How many comparisons do you want to set?', c(),selectize = T)
-               ),
                hr(),
                tags$h3(strong("Step 4.1: Examine the contrasts correlation matrix"), style = "font-size:26px;"),
                verbatimTextOutput("cormat_int"),
@@ -199,58 +195,75 @@ ui = navbarPage("appRiori",
              mainPanel(
                h3(strong("Step 2: Select your variables"), style = "font-size:26px;"),
 
-                         column(4,
-                                selectInput('v1', h4(em('Step 2.1: Select the first variable')), c(), selectize=TRUE),
-
-
-                                selectInput('cont1', h4(strong('Step 3.1: Select the first contrast type')), c("Treatment","Simple","Sum","Scaled",
-                                                                              "Sliding difference", "Helmert",
-                                                                              "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
-                         ),
-                         column(4,
-                                selectInput('v2', h4(em('Step 2.2: Select the second variable')), c(), selectize=TRUE),
-
-                                selectInput('cont2', h4(strong('Step 3.2: Select the second contrast type')), c("Treatment","Simple","Sum","Scaled",
-                                                                               "Sliding difference", "Helmert",
-                                                                               "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
-                         )
-                         ,
-                         column(4,
-                                conditionalPanel(condition="input.radio == 'Three way' ",
-
-                                  selectInput('v3', h4(em('Step 2.3: Select the third variable')), c(), selectize=TRUE),
-
-                                  selectInput('cont3', h4(strong('Step 3.3: Select the third contrast type')), c("Treatment","Simple","Sum","Scaled",
-                                                                                 "Sliding difference", "Helmert",
-                                                                                 "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
-                                )
-                         ),
-
                          fluidRow(
-                           conditionalPanel("input.cont1=='Customized'",
-                                            h4("Customized Contrasts, first variable"),
-                                            selectInput('ihm1', 'How many comparisons do you want to set?', c(),selectize = T),
-                                            uiOutput("inputGroup.i1")
+                           column(4,
+                                  selectInput('v1', h4(em('Step 2.1: Select the first variable')), c(), selectize=TRUE)
                            ),
-
+                           column(4,
+                                  selectInput('v2', h4(em('Step 2.2: Select the second variable')), c(), selectize=TRUE)
+                           ),
+                           column(4,
+                                  conditionalPanel(condition="input.radio == 'Three way' ",
+                                    selectInput('v3', h4(em('Step 2.3: Select the third variable')), c(), selectize=TRUE)
+                                  )
+                           ),
                          ),
 
-                         fluidRow(
-                           conditionalPanel("input.cont2=='Customized'",
-                                            h4("Customized Contrasts, second variable"),
-                                            selectInput('ihm2', 'How many comparisons do you want to set?', c(),selectize = T),
-                                            uiOutput("inputGroup.i2")
-                           ),
+                         conditionalPanel("input.fc2==false",
+                                          fluidRow(
+                                            column(4,
+                                                   selectInput('cont1', h4(strong('Step 3.1: Select the first contrast type')), c("Treatment","Simple","Sum","Scaled",
+                                                                                                                                  "Sliding difference", "Helmert",
+                                                                                                                                  "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
+                                            ),
+                                            column(4,
+                                                   selectInput('cont2', h4(strong('Step 3.2: Select the second contrast type')), c("Treatment","Simple","Sum","Scaled",
+                                                                                                                                   "Sliding difference", "Helmert",
+                                                                                                                                   "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
+                                            )
+                                            ,
+                                            column(4,
+                                                   conditionalPanel(condition="input.radio == 'Three way' ",
+                                                                    selectInput('cont3', h4(strong('Step 3.3: Select the third contrast type')), c("Treatment","Simple","Sum","Scaled",
+                                                                                                                                                   "Sliding difference", "Helmert",
+                                                                                                                                                   "Reverse Helmert","Polynomial","Customized"), selectize=TRUE)
+                                                   )
+                                            ),
+                                          ),
 
-                         ),
-                         fluidRow(
-                           conditionalPanel("input.cont3=='Customized'",
-                                            h4("Customized Contrasts, third variable"),
-                                            selectInput('ihm3', 'How many comparisons do you want to set?', c(),selectize = T),
-                                            uiOutput("inputGroup.i3")
-                           ),
 
+                                          fluidRow(
+                                            conditionalPanel("input.cont1=='Customized'",
+                                                             h4("Customized Contrasts, first variable"),
+                                                             selectInput('ihm1', 'How many comparisons do you want to set?', c(),selectize = T),
+                                                             uiOutput("inputGroup.i1")
+                                            ),
+
+                                          ),
+
+                                          fluidRow(
+                                            conditionalPanel("input.cont2=='Customized'",
+                                                             h4("Customized Contrasts, second variable"),
+                                                             selectInput('ihm2', 'How many comparisons do you want to set?', c(),selectize = T),
+                                                             uiOutput("inputGroup.i2")
+                                            ),
+
+                                          ),
+                                          fluidRow(
+                                            conditionalPanel("input.cont3=='Customized'",
+                                                             h4("Customized Contrasts, third variable"),
+                                                             selectInput('ihm3', 'How many comparisons do you want to set?', c(),selectize = T),
+                                                             uiOutput("inputGroup.i3")
+                                            ),
+                                          ),
                          ),
+
+                         conditionalPanel("input.fc2==true",
+                                          h4(strong('Step 3: Fully customized contrasts')),
+                                          selectInput('hm2', 'How many comparisons do you want to set?', c(),selectize = T),
+                                          uiOutput("inputGroup2")
+                         ),
+
                h3(strong("Step 4: Watch the results"), style = "font-size:26px;"),
                          fluidRow(
                            column(6,
@@ -274,8 +287,6 @@ ui = navbarPage("appRiori",
                        ,
 
                        fluidRow(
-                         conditionalPanel("input.fc2==true",
-                                          uiOutput("inputGroup2")),
                          hr()
                          ),
                        fluidRow(h3(strong("Step6: Get your code!!"), style = "font-size:26px;"),
