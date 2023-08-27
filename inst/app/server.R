@@ -300,13 +300,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       if(is.list(faktor())){
         h <- hypr(faktor(),levels = levels(factor(z_new[,input$in1])))
-        cm=cmat(h)
-        colnames(cm)=paste("C", 1:ncol(cm),sep = "")
-        print(cm)
+        cm=cmat(h,as_fractions = FALSE)
+        cm=matrix(cm,nrow = nrow(cm),ncol = ncol(cm),
+                  dimnames = list(rownames(cm),paste("C", 1:ncol(cm),sep = "")))
+        print(round(cm,2))
       }else{
         cm=faktor()
         colnames(cm)=paste("C", 1:ncol(cm),sep = "")
-        print(cm)
+        print(round(cm,2))
       }},error=function(e){
         cat("Waiting..")
     })
@@ -319,7 +320,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     z_hypmat=mydf()
     tryCatch({
       h <- hypr(faktor(),levels = levels(factor(z_hypmat[,input$in1])))
-      hm=hmat(h)
+      hm=round(hmat(h, as_fractions=FALSE),2)
       rownames(hm)=paste("C", 1:nrow(hm),sep = "")
       print(t(hm))
     },error=function(e){
@@ -554,8 +555,10 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       res = lapply(reat, formula)
 
       h=hypr(res, levels = levelnames)
-      cm=cmat(h)
-      cm
+      cm=cmat(h,as_fractions = FALSE)
+      cm2=matrix(cm,nrow = nrow(cm),ncol = ncol(cm))
+      rownames(cm2)=rownames(cm)
+      cm2
 
 
 
@@ -1212,9 +1215,10 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       if(input$fc2==TRUE){
         mat=facktor_int()
         colnames(mat)=paste("C",1:(ncol(mat)),sep = "")
-        mat
+        round(mat,2)
       }else{
-        cont_mat_int()
+        cmi=cont_mat_int()
+        round(cmi,2)
       }},error=function(e){
         cat("Waiting..")
     })
@@ -1226,12 +1230,12 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       if(input$fc2==TRUE){
         h <- hypr(facktor_int())
-        hm=hmat(h)
+        hm=round(hmat(h,as_fractions=FALSE),2)
         rownames(hm)=paste("C",1:(nrow(hm)),sep = "")
         print(t(hm))
       }else{
         h <- hypr(cont_mat_int())
-        print(t(hmat(h)))
+        print(round(t(hmat(h,as_fractions=FALSE)),2))
       }},error=function(e){
         cat("Waiting..")
     })
