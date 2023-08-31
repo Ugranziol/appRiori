@@ -156,6 +156,8 @@ ui = navbarPage("appRiori",
                    h3(strong("Step 5: Get your code!!"), style = "font-size:26px;"),
                    actionButton("sub", "Submit"),
                    conditionalPanel("input.sub>0",
+                                    radioButtons("radio_output",h3(strong('Choose between'), style = "font-size:20px;"),
+                                                 c("Basic R" = "br", "Hypr" = "hr"), selected= character(0),inline=T),
                                     verbatimTextOutput("res")
                  )
 
@@ -292,6 +294,8 @@ ui = navbarPage("appRiori",
                        fluidRow(h3(strong("Step 6: Get your code!!"), style = "font-size:26px;"),
                                   actionButton("sub2", "Submit"),
                                   conditionalPanel("input.sub2>0",
+                                                   radioButtons("radio_output2",h3(strong('Choose between'), style = "font-size:20px;"),
+                                                                c("Basic R" = "br", "Hypr" = "hr"), selected= character(0),inline=T),
                                               verbatimTextOutput("res_int"))
 
 

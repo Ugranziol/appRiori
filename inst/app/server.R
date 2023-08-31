@@ -402,25 +402,32 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
   ############## The following lines prints the code corresponding to the solution planned by the user.
   output$res=renderPrint({
+    tryCatch({
     a=mydf()
     fname=mydfname()
-    cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
-    cat(sep = "\n")
     h = hypr(faktor(),levels = levels(factor(a[,input$in1])))
+    if(is.null(input$radio_output)){
+      cat("Please, select the kind of output you prefer!")
+    }else if(input$radio_output=="br"){
+      cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
+      cat(sep = "\n")
     if(input$cont=="Customized"){
       cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncol( cmat(h)),")","=",faktor2()))
     }else{
       cat(paste0("contrasts(",fname,"$",input$in1,")","=",faktor2()))
     }
-    cat(sep = "\n")
-    cat(paste0("########### with hypr package"))
-    cat(sep = "\n")
-    cat(paste0("h <- ",as.character(hypr_call(h))))
-    cat(sep = "\n")
-    cat(paste0("contrasts(",fname,"$",input$in1,")",
+      }else{
+        cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
+        cat(sep = "\n")
+        cat(paste0("h <- ",as.character(hypr_call(h))))
+        cat(sep = "\n")
+        cat(paste0("contrasts(",fname,"$",input$in1,")",
                "=","cmat(h)"))
+      }
 
-
+  },error=function(e){
+    cat("It seems that something is missing. Complete the previous step!")
+  })
 
   })
 
@@ -1205,7 +1212,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
   ############## This code allows to display the default simplified contrast matrix.
   output$original_int=renderPrint({
-   cont_mat()
+    tryCatch({
+      cont_mat()
+    },error=function(e){
+      cat("Select different variables!")
+    })
 
   })
 
@@ -1402,27 +1413,31 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
  ############## The following lines prints the "ready-to-use" code corresponding to the solution planned by the user.
 
    output$res_int=renderPrint({
+     tryCatch({
     fname=mydfname()
     a=mydf()
+    if(is.null(input$radio_output2)){
+      cat("Please, select the kind of output you prefer!")
+    }else{
     if(input$radio== 'Two way'){
       cat(paste0(fname,"$",input$v1,"=","factor(",fname,"$",input$v1,")"))
       cat(sep = "\n")
       cat(paste0(fname,"$",input$v2,"=","factor(",fname,"$",input$v2,")"))
       cat(sep = "\n")
       if(input$fc2==TRUE){
+        if(input$radio_output2=="br"){
         cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
                    fname,"$",input$v2,", sep = '_'",")"))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(input$hm2),")","=",faktor2_int()))
-        cat(sep = "\n")
-        cat(paste0("########### with hypr package"))
-        cat(sep = "\n")
+        }else{
         h <- hypr(facktor_int())
         cat(paste0("h <- ", hypr_call(h)))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
-                   "=","cmat(h)"))
+                   "=","cmat(h)"))}
       }else{
+        if(input$radio_output2=="br"){
         if(input$cont1=="Customized"){
           h1 <- hypr(faktorS1(),levels = levels(factor(a[,input$v1])))
           cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncol(cmat(h1)),")","=",faktorV1()))
@@ -1436,18 +1451,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         }else{
           cat(paste0("contrasts(",fname,"$",input$v2,")","=",faktorV2()))
         }
-        cat(sep = "\n")
-        # if(input$onlyI==TRUE){
-        #   cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
-        #              fname,"$",input$v2,", sep = '_'",")"))
-        #   cat(sep = "\n")
-        #   cat(paste0("levels(",fname,"$","Planned_interaction)","=","sort(levels(",fname,"$","Planned_interaction))"))
-        #   cat(sep = "\n")
-        #   cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","=",faktor3_int()))
-        #   cat(sep = "\n")
-        # }
-        cat(paste0("########### with hypr package"))
-        cat(sep = "\n")
+        }else{
         cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
@@ -1456,12 +1460,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
         cat(sep = "\n")
-        # if(input$onlyI==TRUE){
-        #   cat(paste0("h_int <-","h_",input$v1," & ","h_",input$v2))
-        #   cat(sep = "\n")
-        #   cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","= cmat(h_int)"))
-        # }
-       }
+       }}
 
     }else{
       cat(paste0(fname,"$",input$v1,"=","factor(",fname,"$",input$v1,")"))
@@ -1471,6 +1470,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(paste0(fname,"$",input$v3,"=","factor(",fname,"$",input$v3,")"))
       cat(sep = "\n")
       if(input$fc2==TRUE){
+        if(input$radio_output2=="hr"){
       cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
                  fname,"$",input$v2,",",
                  fname,"$",input$v3,",",
@@ -1478,14 +1478,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(sep = "\n")
       cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
                  "=",faktor2_int()))
-      cat(sep = "\n")
-      cat(paste0("########### with hypr package"))
-      cat(sep = "\n")
+      }else{
       cat(paste0("h <- ", hypr_call(hypr(facktor_int()))))
       cat(sep = "\n")
       cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
-                 "=","cmat(h)"))
+                 "=","cmat(h)"))}
       }else{
+        if(input$radio_output2=="br"){
         if(input$cont1=="Customized"){
           h1 <- hypr(faktorS1(),levels = levels(factor(a[,input$v1])))
           cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncol(cmat(h1)),")","=",faktorV1()))
@@ -1506,20 +1505,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         }else{
           cat(paste0("contrasts(",fname,"$",input$v3,")","=",faktorV3()))
         }
-        cat(sep = "\n")
-        # if(input$onlyI==TRUE){
-        #   cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
-        #              fname,"$",input$v2,",",
-        #              fname,"$",input$v3,",",
-        #              ", sep = '_'",")"))
-        #   cat(sep = "\n")
-        #   cat(paste0("levels(",fname,"$","Planned_interaction)","=","sort(levels(",fname,"$","Planned_interaction))"))
-        #   cat(sep = "\n")
-        #   cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","=",faktor3_int()))
-        #   cat(sep = "\n")
-        # }
-        cat(paste0("########### with hypr package"))
-        cat(sep = "\n")
+        }else{
         cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
@@ -1531,15 +1517,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         cat(paste0("h_",input$v3, " <- ", hypr_call(faktorV3_hypr())))
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$",input$v3,")","=","cmat(h_",input$v3,")"))
-        # if(input$onlyI==TRUE){
-        #   cat(sep = "\n")
-        #   cat(paste0("h_int <-","h_",input$v1," & ","h_",input$v2," & ","h_",input$v3))
-        #   cat(sep = "\n")
-        #   cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(ncol(cont_mat_int())),")","= cmat(h_int)"))
-        # }
-      #
-       }
+       }}
     }
+     }},error=function(e){
+       cat("It seems that something is missing. Complete the previous step!")
+     })
 
 
   })
@@ -1636,8 +1618,6 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
          cat(paste0("Your final comparisons will be: ",ncol(mat)))
        }else{
          mat2=cont_mat_int()
-         cat(paste0("You selected fully customazized interaction contrasts."))
-         cat(sep = "\n")
          cat(paste0("For your first variable, you selected ",input$cont1," contrasts."))
          cat(sep = "\n")
          cat(paste0("For your second variable, you selected ",input$cont2," contrasts."))
