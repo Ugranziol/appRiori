@@ -1,41 +1,56 @@
 # An example with a two-way interaction
 
-For this example, we will use the database `airquality`. This database,
-contains data referring to daily air quality measurements in New York,
-from May to September 1973. (see `?airquality` for further information).
+For this example, we will use the `stress` database. It is contained in
+the `appRiori` package. This database, contains data referring to the
+level of stress perceived from 102 academics. NB: This data are
+fictional. (see `?stress` for further information).
 
 In our example we will consider the following variables:
 
--   **Temp**, a numerical variable referring to Temperature in
-    Fahrenheit.
--   **Month**, a numerical variable ranging from 1 to 12, where 1
-    encodes January and 12 encodes December.
--   **Day**, a numerical variable encoding the days of each month.
+-   **Stress**, a numerical variable referring to the level of stress
+    perceived at the moment of the assessment. It represents a score
+    ranging from 0 (no stress) to 100 (maximum level of stress).
+-   **Position**, a categorical variable with three levels, referring
+    to (A) PhD student, (B) Full-Time Researchers and (C) Professors
+    (Associate or Full).
+-   **Grant**, a categorical variable describing if the individual is
+    applying for a grant (YES), or not (NO).
 
-Suppose now that a researcher is interested in understanding if, in a
-time not afflicted by climate change, the temperature would change
-according to the following hypotheses:
+Suppose now that a researcher is interested in understanding if the
+level of stress would change according to the following hypotheses:
 
-1.  The mean temperature (in F), of May should be lower than the mean
-    temperature of June. Similarly, the mean temperature, of June should
-    be lower than the mean temperature of July. No differences should be
-    observed between the mean temperature of July and August. Finally,
-    The mean temperature of August should be higher than the mean
-    temperature of September.
+1.  The average level of stress of PhD students should be lower than the
+    average level of stress of FT-Researchers. Finally, average level of
+    stress of FT-Researchers should be lower than average level of
+    stress of Professors.
 2.  This set of comparisons should be better detected considering the
-    temperature change that occurs between the first half (that should
-    be warmer) of the Month and the second half.
+    fact an individual is applying for a grant or not.
 
 Let’s see how to set these planned contrasts with appRiori!
 
-For practical purposes, let’s create a categorical variable that splits
-each month into two parts. Moreover, let’s create another variable
-explicitly stating the name of the month. Then, we can download the data
-frame in order to use it inside appRiori.
+**Step 1**: After upolading the data and selected the “Interactions”
+Panel, we should select `Two way` from the first menu.
 
-    airquality$day_bin=ifelse(airquality$Day<16,"First_half","Second_half")
-    airquality$Month_ch=c(rep("m5_May",31),rep("m6_June",30),rep("m7_July",31),rep("m8_August",31),rep("m9_September",30))
-    write.table(airquality,"airquality.csv",sep = ";",dec = ".",row.names = F,col.names = T)
+**Step 2**: We select the **Position** as the first variable and
+**Grant** as second.
+
+**Step 3**: Then we select the appropriate contrasts for each variable.
+**Sliding difference** for the first variable and **Scaled** for the
+second (see the **Type of contrasts** section for further explanation of
+how such contrasts work).
+
+**Step 4**: At that point, we ca see the default, new and hypotheses
+matrices related to our comparisons. Inside the New contrast matrix, we
+can see that the column 1,2 encodes the contrasts for the first main
+effect (i.e., Position). Columns 3 encodes the contrasts for the second
+main effect (i.e., Grant). The last two columns encode the contrasts for
+interaction.
+
+**Step 4.1**: We can check the correlations among our contrasts.
+
+**Step 5**: A final look at what we selected (just to be sure).
+
+**Step 6**: Let’s obtain our Basic R code.
 
 The following picture displays how to set and obtain the code
 corresponding to this example:
@@ -44,140 +59,86 @@ corresponding to this example:
 <img src="www/example_2_p1.png" alt="drawing" width="1200"/>
 </center>
 
-**Step 1**: After upolading the data and selected the “Interactions”
-Panel, we should select `Two way` from the first menu.
-
-**Step 2**: We select the **Month** as the first variable and
-**day\_bin** as second.
-
-**Step 3**: Then we select the appropriate contrasts for each variable.
-**Sliding difference** for the first variable and **scaled** for the
-second (see the **Type of contrasts** section for further explanation of
-how such contrasts work).
-
-**Step 4**: At that point, we ca see the default, new and hypotheses
-matrices related to our comparisons. Inside the New contrast matrix, we
-can see that the column 1,2,3,4 encodes the contrasts for the first main
-effect (i.e., Month). Columns 5 encodes the contrasts for the second
-main effect (i.e., day\_bin). The last four columns encode the contrasts
-for interaction.
-
-**Step 4.1**: We can check the correlations among our contrasts.
-
-**Step 5**: A final look at what we selected (just to be sure).
-
-**Step 6**: Let’s obtain our code.
-
 **The end**: Once we have the code, we can test the hypotheses through a
-linear regression (for practical purposes, let’s assume the response
-variable called `Temp` as normally distributed).
+linear regression.
 
-    airquality$Month_ch=factor(airquality$Month_ch)
-    airquality$day_bin=factor(airquality$day_bin)
-    contrasts(airquality$Month_ch)=MASS::contr.sdif(5)
-    contrasts(airquality$day_bin)=contr.sum(2)/2
-    ########### with hypr package
-    # h_Month_ch<- hypr()
-    # cmat(h_Month_ch)<-MASS::contr.sdif(5)
-    # contrasts(airquality$Month_ch)=cmat(h_Month_ch)
-    # h_day_bin<- hypr()
-    # cmat(h_day_bin)<-contr.sum(2)/2
-    # contrasts(airquality$day_bin)=cmat(h_day_bin)
+    Stress$Position=factor(Stress$Position)
+    Stress$Grant=factor(Stress$Grant)
+    contrasts(Stress$Position)=MASS::contr.sdif(3)
+    contrasts(Stress$Grant)=contr.sum(2)/2
 
-    summary(lm(Temp~Month_ch*day_bin,data=airquality))
+    summary(lm(Stress~Position*Grant,data=Stress))
 
     ## 
     ## Call:
-    ## lm(formula = Temp ~ Month_ch * day_bin, data = airquality)
+    ## lm(formula = Stress ~ Position * Grant, data = Stress)
     ## 
     ## Residuals:
-    ##      Min       1Q   Median       3Q      Max 
-    ## -15.6000  -4.0667  -0.4667   3.6667  15.6250 
+    ##     Min      1Q  Median      3Q     Max 
+    ## -9.0929 -2.2796 -0.1859  2.6179  7.7371 
     ## 
     ## Coefficients:
-    ##                      Estimate Std. Error t value Pr(>|t|)    
-    ## (Intercept)          77.89583    0.50233 155.069  < 2e-16 ***
-    ## Month_ch2-1          13.54583    1.59103   8.514 2.10e-14 ***
-    ## Month_ch3-2           4.82292    1.59103   3.031 0.002891 ** 
-    ## Month_ch4-3           0.07917    1.57835   0.050 0.960067    
-    ## Month_ch5-4          -7.10208    1.59103  -4.464 1.62e-05 ***
-    ## day_bin1              3.96833    1.00466   3.950 0.000122 ***
-    ## Month_ch2-1:day_bin1  6.64167    3.18206   2.087 0.038643 *  
-    ## Month_ch3-2:day_bin1 -5.77917    3.18206  -1.816 0.071439 .  
-    ## Month_ch4-3:day_bin1  0.90833    3.15671   0.288 0.773957    
-    ## Month_ch5-4:day_bin1  7.00417    3.18206   2.201 0.029329 *  
+    ##                    Estimate Std. Error t value Pr(>|t|)    
+    ## (Intercept)         79.8214     0.3673 217.329   <2e-16 ***
+    ## Position2-1         -1.3309     0.8997  -1.479   0.1423    
+    ## Position3-2          1.5241     0.8997   1.694   0.0935 .  
+    ## Grant1              -0.9067     0.7346  -1.234   0.2201    
+    ## Position2-1:Grant1  -0.3971     1.7993  -0.221   0.8258    
+    ## Position3-2:Grant1   0.9400     1.7993   0.522   0.6026    
     ## ---
     ## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
     ## 
-    ## Residual standard error: 6.211 on 143 degrees of freedom
-    ## Multiple R-squared:  0.5949, Adjusted R-squared:  0.5695 
-    ## F-statistic: 23.34 on 9 and 143 DF,  p-value: < 2.2e-16
+    ## Residual standard error: 3.709 on 96 degrees of freedom
+    ## Multiple R-squared:  0.0514, Adjusted R-squared:  0.001992 
+    ## F-statistic:  1.04 on 5 and 96 DF,  p-value: 0.3986
 
 ### Interpretation
 
 What is the summary telling us? Let’s have a look at the Coefficients’
 table:
 
-1.  The row referring to **Month2-1** contains the comparisons between
-    the mean temperature of June compared to the mean temperature of
-    May. Such difference is equal to 13.54 and it is statistically
-    significant (*p* &lt; .001).
+1.  The row referring to **(Intercept)** contains the estimated average
+    values of stress of all the sample. It is quite high!
 
-2.  The row referring to **Month3-2** contains the comparisons between
-    the mean temperature of July compared to the mean temperature of
-    June. Such difference is equal to 4.82 and it is statistically
-    significant (*p* &lt; .01).
+2.  The row referring to **Position2-1** contains the comparisons
+    between the mean stress of Full-Time researchers (i.e., group B)
+    compared to the mean temperature of PhD students (i.e., group A).
+    Such difference is equal to  − 1.33 and it is not statistically
+    significant (*p* = .14).
 
-3.  The row referring to **Month4-3** contains the comparisons between
-    the mean temperature of August compared to the mean temperature of
-    July. Such difference is equal to 0.08 and it is not statistically
-    significant (*p* = .96).
+3.  The row referring to **Position3-2** contains the comparisons
+    between the mean stress of Professors (i.e., group C) compared to
+    the mean stress of Full-Time researchers (i.e., group B). Such
+    difference is equal to 1.52 and it is not statistically significant
+    (*p* = .09).
 
-4.  The row referring to **Month5-4** contains the comparisons between
-    the mean temperature of September compared to the mean temperature
-    of August. Such difference is equal to  − 7.10 and it is
-    statistically significant (*p* &lt; .001).
+4.  The row referring to **Grant** contains the comparisons between the
+    mean stress observed in those who are not applying for a grant
+    compared to those who are applying for a grant. Such difference is
+    equal to  − 0.91 and it is not statistically significant
+    (*p* = .22).
 
-5.  The row referring to **day\_bin1** contains the comparisons between
-    the mean temperature observed in the first half of the month
-    compared to the mean temperature observed in the second half of the
-    month. Such difference is equal to 3.97 and it is statistically
-    significant (*p* &lt; .01).
+5.  Now we can start with the interaction effect. The row referring to
+    **Position2-1:Grant1** contains the comparisons between the mean
+    stress of Full-Time researchers (i.e., group B) compared to the mean
+    temperature of PhD students (i.e., group A), across those who are
+    not applying for a grant compared to those who are applying for a
+    grant. Such a difference is equal to  − 0.40 and it is not
+    statistically significant (*p* = .83).
 
-6.  Now we can start with the interaction effect. The row referring to
-    **Month2-1:day\_bin1** contains the comparisons between the mean
-    temperature of June compared to the mean temperature of May, across
-    the two halves of the month. In other words, the difference of the
-    difference of mean temperatures between the two halves of the month
-    of June and those of May. Such a difference is equal to 6.64 and it
-    is statistically significant (*p* = .04).
+6.  The row referring to **Position3-2:Grant1** contains the comparisons
+    between the mean stress of Professors (i.e., group C) compared to
+    the mean stress of Full-Time researchers (i.e., group B), across
+    those who are not applying for a grant compared to those who are
+    applying for a grant. Such a difference is equal to 0.94 and it is
+    not statistically significant (*p* = .60).
 
-7.  The row referring to **Month3-2:day\_bin1** contains the comparisons
-    between the mean temperature of July compared to the mean
-    temperature of June, across the two halves of the month. In other
-    words, the difference of the difference of mean temperatures between
-    the two halves of the month of July and those of June Such a
-    difference is equal to  − 5.78 and it is not statistically
-    significant (*p* = .07).
+It seems that:
 
-8.  The row referring to **Month4-3:day\_bin1** contains the comparisons
-    between the mean temperature of August compared to the mean
-    temperature of July, across the two halves of the month. In other
-    words, the difference of the difference of mean temperatures between
-    the two halves of the month of August and those of July Such a
-    difference is equal to 0.91 and it is not statistically significant
-    (*p* = .77).
+**If you work in academics, you are stressed.**
 
-9.  The row referring to **Month5-4:day\_bin1** contains the comparisons
-    between the mean temperature of September compared to the mean
-    temperature of August, across the two halves of the month. In other
-    words, the difference of the difference of mean temperatures between
-    the two halves of the month of September and those of August Such a
-    difference is equal to 7 and it is statistically significant
-    (*p* = .03).
-
-It seems that, even in this case, the hypotheses of the researcher are
-corroborated by the data!
+**Regardless of the position you have, or whether you are applying for a
+grant (or not).**
 
 Good job, researcher!
 
