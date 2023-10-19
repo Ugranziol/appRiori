@@ -61,6 +61,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
    return(mydf_0)
   })
 
+ ncomparisons <- reactiveValues()
+
  mydfname = reactive({
    if(input$data_type == "upload") {
      req(input$file1)
@@ -134,10 +136,12 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############# When the variable are correctly uploaded, it is given the user to select the number of contrast to set, out of n-1 contrasts
   observeEvent(input$in1,{
     y=mydf()
+    ncomparisons$hm1 <- length(levels(factor(y[,input$in1])))-1
     updateSelectInput(session, "hm1",
-                       choices = 1:(length(levels(factor(y[,input$in1])))-1),
-                      selected = length(levels(factor(y[,input$in1])))-1
+                       choices = 1:ncomparisons$hm1,
+                      selected = ncomparisons$hm1
                        )
+
 
   })
 
@@ -300,9 +304,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     tryCatch({
       if(is.list(faktor())){
         h <- hypr(faktor(),levels = levels(factor(z_new[,input$in1])))
-        cm=cmat(h,as_fractions = FALSE)
-        cm=matrix(cm,nrow = nrow(cm),ncol = ncol(cm),
-                  dimnames = list(rownames(cm),paste("C", 1:ncol(cm),sep = "")))
+        if(input$cont == "Customized") {
+          h <- filler_contrasts(h, ncomparisons$hm1)
+        } else {
+          names(h) <- paste0("C", seq_along(names(h)))
+        }
+        cm = cmat(h, as_fractions = FALSE)
+        cm = matrix(cm, nrow = nrow(cm), ncol = ncol(cm), dimnames = dimnames(cm))
         print(round(cm,2))
       }else{
         cm=faktor()
@@ -394,7 +402,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     }else if(input$cont=="Polynomial"){
       paste0("contr.poly(",length(levels(fattore)),")")
     }else{
-      h <- hypr(faktor(),levels = levels(factor(a[,input$in1])))
+      h <- hypr(faktor(),levels = levels(factor(a[,input$in1]))) %>% filler_contrasts(ncomparisons$hm1)
       paste("matrix(",(paste("c(",paste(cmat(h), collapse = ','),")")),",",nrow(cmat(h)),",",ncol(cmat(h)),")")
     }
 
@@ -412,7 +420,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(paste0(fname,"$",input$in1,"=","factor(",fname,"$",input$in1,")"))
       cat(sep = "\n")
     if(input$cont=="Customized"){
-      cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncol( cmat(h)),")","=",faktor2()))
+      cat(paste0("contrasts(",fname,"$",input$in1,",","how.many=",ncomparisons$hm1,")","=",faktor2()))
     }else{
       cat(paste0("contrasts(",fname,"$",input$in1,")","=",faktor2()))
     }
@@ -421,8 +429,13 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         cat(sep = "\n")
         cat(paste0("h <- ",as.character(hypr_call(h))))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$in1,")",
-               "=","cmat(h)"))
+        if(input$cont=="Customized"){
+          cat(paste0("contrasts(",fname,"$",input$in1,", how.many =",ncomparisons$hm1,")",
+                     "=","cmat(h)"))
+        } else {
+          cat(paste0("contrasts(",fname,"$",input$in1,")",
+                     "=","cmat(h)"))
+        }
       }
 
   },error=function(e){
@@ -450,10 +463,10 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     }else{
       lev_interaction=factor(levels(interaction(fattore1,fattore2,fattore3,sep="_")))
     }
-
+    ncomparisons$hm2 <- length(levels(lev_interaction))-1
     updateSelectInput(session, "hm2",
-                      choices = 1:(length(levels(lev_interaction))-1),
-                      selected = length(levels(lev_interaction))-1
+                      choices = 1:ncomparisons$hm2,
+                      selected = ncomparisons$hm2
     )
 
   })
@@ -672,10 +685,12 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############# When the variable are correctly uploaded, it is given the user to select the number of contrast to set, out of n-1 contrasts
   observeEvent(input$v1,{
     y=mydf()
+    ncomparisons$ihm1 <- length(levels(factor(y[,input$v1])))-1
     updateSelectInput(session, "ihm1",
-                      choices = 1:(length(levels(factor(y[,input$v1])))-1),
-                      selected = length(levels(factor(y[,input$v1])))-1
+                      choices = 1:ncomparisons$ihm1,
+                      selected = ncomparisons$ihm1
     )
+
 
   })
 
@@ -817,9 +832,10 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############# When the variable are correctly uploaded, it is given the user to select the number of contrast to set, out of n-1 contrasts
   observeEvent(input$v2,{
     y=mydf()
+    ncomparisons$ihm2 <- length(levels(factor(y[,input$v2])))-1
     updateSelectInput(session, "ihm2",
-                      choices = 1:(length(levels(factor(y[,input$v2])))-1),
-                      selected = length(levels(factor(y[,input$v2])))-1
+                      choices = 1:ncomparisons$ihm2,
+                      selected = ncomparisons$ihm2
     )
 
   })
@@ -962,9 +978,10 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############# When the variable are correctly uploaded, it is given the user to select the number of contrast to set, out of n-1 contrasts
   observeEvent(input$v3,{
     y=mydf()
+    ncomparisons$ihm3 <- length(levels(factor(y[,input$v3])))-1
     updateSelectInput(session, "ihm3",
-                      choices = 1:(length(levels(factor(y[,input$v3])))-1),
-                      selected = length(levels(factor(y[,input$v3])))-1
+                      choices = 1:ncomparisons$ihm3,
+                      selected = ncomparisons$ihm3
     )
 
   })
@@ -1126,14 +1143,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
       if(input$cont1=="Customized"){
         h1=hypr(faktorS1(),levels=levels(factor(y[,input$v1])))
-        contrasts(simdat4[,1],how.many=ncol(cmat(h1)))=cmat(h1)
+        contrasts(simdat4[,1],how.many=ncomparisons$ihm1)=cmat(h1)
       }else{
         contrasts(simdat4[,1])=faktorS1()
       }
 
       if(input$cont2=="Customized"){
         h2=hypr(faktorS2(),levels=levels(factor(y[,input$v2])))
-        contrasts(simdat4[,2],how.many=ncol(cmat(h2)))=cmat(h2)
+        contrasts(simdat4[,2],how.many=ncomparisons$ihm2)=cmat(h2)
       }else{
         contrasts(simdat4[,2])=faktorS2()
       }
@@ -1141,7 +1158,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
       if(input$cont3=="Customized"){
         h3=hypr(faktorS3(),levels=levels(factor(y[,input$v3])))
-        contrasts(simdat4[,3],how.many=ncol(cmat(h3)))=cmat(h3)
+        contrasts(simdat4[,3],how.many=ncomparisons$ihm3)=cmat(h3)
       }else{
         contrasts(simdat4[,3])=faktorS3()
       }
@@ -1155,7 +1172,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+(size3-1)+2
@@ -1174,14 +1191,14 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
       if(input$cont1=="Customized"){
         h1=hypr(faktorS1(),levels=levels(factor(y[,input$v1])))
-        contrasts(simdat4[,1],how.many=ncol(cmat(h1)))=cmat(h1)
+        contrasts(simdat4[,1],how.many=ncomparisons$ihm1)=cmat(h1)
       }else{
         contrasts(simdat4[,1])=faktorS1()
       }
 
       if(input$cont2=="Customized"){
         h2=hypr(faktorS2(),levels=levels(factor(y[,input$v2])))
-        contrasts(simdat4[,2],how.many=ncol(cmat(h2)))=cmat(h2)
+        contrasts(simdat4[,2],how.many=ncomparisons$ihm2)=cmat(h2)
       }else{
         contrasts(simdat4[,2])=faktorS2()
       }
@@ -1194,7 +1211,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+2
@@ -1226,6 +1243,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       if(input$fc2==TRUE){
         mat=facktor_int()
         colnames(mat)=paste("C",1:(ncol(mat)),sep = "")
+        h <- hypr(mat) %>% filler_contrasts(ncomparisons$hm2)
+        mat <- cmat(h, as_fractions = FALSE)
+        mat <- matrix(mat, nrow = nrow(mat), ncol = ncol(mat), dimnames = dimnames(mat))
         round(mat,2)
       }else{
         cmi=cont_mat_int()
@@ -1429,36 +1449,44 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
                    fname,"$",input$v2,", sep = '_'",")"))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",as.numeric(input$hm2),")","=",faktor2_int()))
+        cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",ncomparisons$hm2,")","=",faktor2_int()))
         }else{
         h <- hypr(facktor_int())
         cat(paste0("h <- ", hypr_call(h)))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
+        cat(paste0("contrasts(",fname,"$","Planned_interaction,","how.many=",ncomparisons$hm2,")",
                    "=","cmat(h)"))}
       }else{
         if(input$radio_output2=="br"){
         if(input$cont1=="Customized"){
           h1 <- hypr(faktorS1(),levels = levels(factor(a[,input$v1])))
-          cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncol(cmat(h1)),")","=",faktorV1()))
+          cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncomparisons$ihm1,")","=",faktorV1()))
         }else{
           cat(paste0("contrasts(",fname,"$",input$v1,")","=",faktorV1()))
         }
         cat(sep = "\n")
         if(input$cont2=="Customized"){
           h2 <- hypr(faktorS2(),levels = levels(factor(a[,input$v2])))
-          cat(paste0("contrasts(",fname,"$",input$v2,",","how.many=",ncol(cmat(h2)),")","=",faktorV2()))
+          cat(paste0("contrasts(",fname,"$",input$v2,",","how.many=",ncomparisons$ihm2,")","=",faktorV2()))
         }else{
           cat(paste0("contrasts(",fname,"$",input$v2,")","=",faktorV2()))
         }
         }else{
         cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
+        if(input$cont1=="Customized"){
+          cat(paste0("contrasts(",fname,"$",input$v1,", how.many = ",ncomparisons$ihm1,")","=","cmat(h_",input$v1,")"))
+        }else{
+          cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
+        }
         cat(sep = "\n")
         cat(paste0("h_",input$v2, " <- ", hypr_call(faktorV2_hypr())))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
+        if(input$cont2=="Customized"){
+          cat(paste0("contrasts(",fname,"$",input$v2,", how.many = ",ncomparisons$ihm2,")","=","cmat(h_",input$v2,")"))
+        }else{
+          cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
+        }
         cat(sep = "\n")
        }}
 
@@ -1470,53 +1498,65 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(paste0(fname,"$",input$v3,"=","factor(",fname,"$",input$v3,")"))
       cat(sep = "\n")
       if(input$fc2==TRUE){
-        if(input$radio_output2=="hr"){
+        if(input$radio_output2=="br"){
       cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
                  fname,"$",input$v2,",",
                  fname,"$",input$v3,",",
                  ", sep = '_'",")"))
       cat(sep = "\n")
-      cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
+      cat(paste0("contrasts(",fname,"$","Planned_interaction, how.many =",ncomparisons$hm2,")",
                  "=",faktor2_int()))
       }else{
       cat(paste0("h <- ", hypr_call(hypr(facktor_int()))))
       cat(sep = "\n")
-      cat(paste0("contrasts(",fname,"$","Planned_interaction",")",
+      cat(paste0("contrasts(",fname,"$","Planned_interaction, how.many =",ncomparisons$hm2,")",
                  "=","cmat(h)"))}
       }else{
         if(input$radio_output2=="br"){
         if(input$cont1=="Customized"){
           h1 <- hypr(faktorS1(),levels = levels(factor(a[,input$v1])))
-          cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncol(cmat(h1)),")","=",faktorV1()))
+          cat(paste0("contrasts(",fname,"$",input$v1,",","how.many=",ncomparisons$ihm1,")","=",faktorV1()))
         }else{
           cat(paste0("contrasts(",fname,"$",input$v1,")","=",faktorV1()))
         }
         cat(sep = "\n")
         if(input$cont2=="Customized"){
           h2 <- hypr(faktorS2(),levels = levels(factor(a[,input$v2])))
-          cat(paste0("contrasts(",fname,"$",input$v2,",","how.many=",ncol(cmat(h2)),")","=",faktorV2()))
+          cat(paste0("contrasts(",fname,"$",input$v2,",","how.many=",ncomparisons$ihm2,")","=",faktorV2()))
         }else{
           cat(paste0("contrasts(",fname,"$",input$v2,")","=",faktorV2()))
         }
         cat(sep = "\n")
         if(input$cont3=="Customized"){
           h3 <- hypr(faktorS3(),levels = levels(factor(a[,input$v3])))
-          cat(paste0("contrasts(",fname,"$",input$v3,",","how.many=",ncol(cmat(h3)),")","=",faktorV3()))
+          cat(paste0("contrasts(",fname,"$",input$v3,",","how.many=",ncomparisons$ihm3,")","=",faktorV3()))
         }else{
           cat(paste0("contrasts(",fname,"$",input$v3,")","=",faktorV3()))
         }
         }else{
         cat(paste0("h_",input$v1, " <- ", hypr_call(faktorV1_hypr())))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
+        if(input$cont1=="Customized") {
+          cat(paste0("contrasts(",fname,"$",input$v1,", how.many = ",ncomparisons$ihm1,")","=","cmat(h_",input$v1,")"))
+        } else {
+          cat(paste0("contrasts(",fname,"$",input$v1,")","=","cmat(h_",input$v1,")"))
+        }
         cat(sep = "\n")
         cat(paste0("h_",input$v2, " <- ", hypr_call(faktorV2_hypr())))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
+        if(input$cont2=="Customized") {
+          cat(paste0("contrasts(",fname,"$",input$v2,", how.many = ",ncomparisons$ihm2,")","=","cmat(h_",input$v2,")"))
+        } else {
+          cat(paste0("contrasts(",fname,"$",input$v2,")","=","cmat(h_",input$v2,")"))
+        }
         cat(sep = "\n")
         cat(paste0("h_",input$v3, " <- ", hypr_call(faktorV3_hypr())))
         cat(sep = "\n")
-        cat(paste0("contrasts(",fname,"$",input$v3,")","=","cmat(h_",input$v3,")"))
+        if(input$cont2=="Customized") {
+          cat(paste0("contrasts(",fname,"$",input$v3,", how.many = ",ncomparisons$ihm3,")","=","cmat(h_",input$v3,")"))
+        } else {
+          cat(paste0("contrasts(",fname,"$",input$v3,")","=","cmat(h_",input$v3,")"))
+        }
        }}
     }
      }},error=function(e){
