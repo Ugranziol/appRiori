@@ -1172,7 +1172,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+(size3-1)+2
@@ -1211,7 +1211,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+2
