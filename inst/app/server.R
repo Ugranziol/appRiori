@@ -1172,7 +1172,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],simdat4[,3],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      isfiller <- grepl("F[0-9]+($|:)", colnames(Xctr)[-1])
+      colnames(Xctr)[-1][isfiller] <- paste0("F", seq_len(sum(isfiller)))
+      colnames(Xctr)[-1][!isfiller] <- paste0("C", seq_len(sum(!isfiller)))
+      Xctr <- cbind(Xctr[,1,drop=FALSE], Xctr[,1+which(!isfiller),drop=FALSE], Xctr[,1+which(isfiller),drop=FALSE])
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+(size3-1)+2
@@ -1211,7 +1215,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         as.matrix()
 
       rownames(Xctr)=sort(levels(interaction(simdat4[,1],simdat4[,2],sep="_",lex.order = F)))
-      colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      #colnames(Xctr)[2:length(colnames(Xctr))]=paste("C",1:(ncol(Xctr)-1),sep = "")
+      isfiller <- grepl("F[0-9]+($|:)", colnames(Xctr)[-1])
+      colnames(Xctr)[-1][isfiller] <- paste0("F", seq_len(sum(isfiller)))
+      colnames(Xctr)[-1][!isfiller] <- paste0("C", seq_len(sum(!isfiller)))
+      Xctr <- cbind(Xctr[,1,drop=FALSE], Xctr[,1+which(!isfiller),drop=FALSE], Xctr[,1+which(isfiller),drop=FALSE])
 
       # if(input$onlyI==TRUE){
       #   int_values=(size1-1)+(size2-1)+2
