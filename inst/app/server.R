@@ -517,6 +517,44 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   ############## Chuck of code that is required when the user select the option "Fully customized 1" for the drag-n-drop option
   ############## Step 1: creating the drag-n-drop menus, with (n1 X n2) -1 blocks to drag. For each Block, a different input is defined.
 
+  # observeEvent(toObserve(), {
+  #   a=mydf()
+  #   ifelse(input$radio== 'Three way',
+  #          assign("toint",interaction(factor(a[,input$v1]),factor(a[,input$v2]),factor(a[,input$v3]))),
+  #          assign("toint",interaction(factor(a[,input$v1]),factor(a[,input$v2]))))
+  #
+  #   output$inputGroup2 = renderUI({
+  #     ifelse(length(levels(toint))==1,assign("num2",1),assign("num2",as.numeric(input$hm2)))
+  #     input_list <- lapply(1:num2, function(i) {
+  #       inputName <- paste("input", i, sep = "")
+  #       bucket_list(
+  #         header = paste("contrast #",i),
+  #         group_name = "bucket_list_group",
+  #         orientation = "horizontal",
+  #         add_rank_list(
+  #           text = "Drag from here",
+  #           labels =
+  #             levels(toint)
+  #           ,
+  #           input_id = inputName
+  #         ),
+  #         add_rank_list(
+  #           text = "to here",
+  #           labels = NULL,
+  #           input_id = paste(inputName,1,sep = "")
+  #         ),
+  #         add_rank_list(
+  #           text = "or here",
+  #           labels = NULL,
+  #           input_id = paste(inputName,2,sep = "")
+  #         )
+  #
+  #       )
+  #     })
+  #     do.call(tagList, input_list)
+  #   })
+  # })
+
   observeEvent(toObserve(), {
     a=mydf()
     ifelse(input$radio== 'Three way',
@@ -525,8 +563,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
     output$inputGroup2 = renderUI({
       ifelse(length(levels(toint))==1,assign("num2",1),assign("num2",as.numeric(input$hm2)))
-      input_list <- lapply(1:num2, function(i) {
-        inputName <- paste("input", i, sep = "")
+      input_list2 <- lapply(1:num2, function(i) {
+        inputName2 <- paste("input", i, sep = "")
         bucket_list(
           header = paste("contrast #",i),
           group_name = "bucket_list_group",
@@ -536,26 +574,72 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
             labels =
               levels(toint)
             ,
-            input_id = inputName
+            input_id = paste(inputName2,"_4",sep="")
+            #input_id = inputName2
           ),
           add_rank_list(
             text = "to here",
             labels = NULL,
-            input_id = paste(inputName,1,sep = "")
+            input_id = paste(inputName2,"g",sep = "")
           ),
           add_rank_list(
             text = "or here",
             labels = NULL,
-            input_id = paste(inputName,2,sep = "")
+            input_id = paste(inputName2,"h",sep = "")
           )
 
         )
       })
-      do.call(tagList, input_list)
+      do.call(tagList, input_list2)
     })
   })
-
   ############## For each block, the input name is stored and manipulated to fit an hypr() model. Basically, This code create a list of formulas.
+  # reattivo_int=reactive({
+  #   a=mydf()
+  #   ifelse(input$radio== 'Three way',
+  #          assign("toint",interaction(factor(a[,input$v1]),factor(a[,input$v2]),factor(a[,input$v3]))),
+  #          assign("toint",interaction(factor(a[,input$v1]),factor(a[,input$v2]))))
+  #
+  #   ifelse(length(levels(toint))==1,assign("num2",1),assign("num2",as.numeric(input$hm2)))
+  #   eta=paste(lapply(1:num2, function(i) {
+  #     inputName1 <- paste("input", i, "1",sep = "")
+  #     if(length(input[[inputName1]])==1){
+  #       input[[inputName1]]
+  #     }else{
+  #       paste(input[[inputName1]],collapse="+")
+  #     }
+  #   }))
+  #
+  #   for (e in 1:length(eta)) {
+  #     if(str_detect(eta[[e]],"\\+")==FALSE){
+  #       eta[[e]]
+  #     }else{
+  #       eta[[e]]=paste("(",eta[[e]],")","/",length(str_split(eta[[e]], "\\+")[[1]]))
+  #     }
+  #   }
+  #
+  #   beta=paste(lapply(1:num2, function(i) {
+  #     inputName2 <- paste("input", i, "2",sep = "")
+  #     if(length(input[[inputName2]])==1){
+  #       input[[inputName2]]
+  #     }else{
+  #       paste(input[[inputName2]],collapse="+")
+  #     }
+  #
+  #   }))
+  #
+  #   for (e in 1:length(beta)) {
+  #     if(str_detect(beta[[e]],"\\+")==FALSE){
+  #       beta[[e]]
+  #     }else{
+  #       beta[[e]]=paste("(",beta[[e]],")","/",length(str_split(beta[[e]], "\\+")[[1]]))
+  #     }
+  #   }
+  #
+  #   list(paste(eta,"~",beta))
+  #
+  # })
+
   reattivo_int=reactive({
     a=mydf()
     ifelse(input$radio== 'Three way',
@@ -564,11 +648,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
 
     ifelse(length(levels(toint))==1,assign("num2",1),assign("num2",as.numeric(input$hm2)))
     eta=paste(lapply(1:num2, function(i) {
-      inputName1 <- paste("input", i, "1",sep = "")
-      if(length(input[[inputName1]])==1){
-        input[[inputName1]]
+      inputName21 <- paste("input", i, "g",sep = "")
+      if(length(input[[inputName21]])==1){
+        input[[inputName21]]
       }else{
-        paste(input[[inputName1]],collapse="+")
+        paste(input[[inputName21]],collapse="+")
       }
     }))
 
@@ -581,11 +665,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     }
 
     beta=paste(lapply(1:num2, function(i) {
-      inputName2 <- paste("input", i, "2",sep = "")
-      if(length(input[[inputName2]])==1){
-        input[[inputName2]]
+      inputName22 <- paste("input", i, "h",sep = "")
+      if(length(input[[inputName22]])==1){
+        input[[inputName22]]
       }else{
-        paste(input[[inputName2]],collapse="+")
+        paste(input[[inputName22]],collapse="+")
       }
 
     }))
@@ -601,6 +685,7 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     list(paste(eta,"~",beta))
 
   })
+
 
   ############ The following code produces the basis of the new contrasts of matrix, based on the option selected. It takes as input all the previous line of code
   facktor_int=reactive({
