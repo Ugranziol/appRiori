@@ -298,30 +298,62 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   })
 
 
+# ############# This code allows to display the new contrast matrix
+# output$new=renderPrint({
+#   z_new=mydf()
+#   tryCatch({
+#     if(is.list(faktor())){
+#       h <- hypr(faktor(),levels = levels(factor(z_new[,input$in1])))
+#       if(input$cont == "Customized") {
+#         h <- filler_contrasts(h, ncomparisons$hm1)
+#
+#       } else {
+#        names(h) <- paste0("C",seq_along(names(h)))
+#       }
+#       cm = cmat(h, as_fractions = FALSE)
+#       cm = matrix(cm, nrow = nrow(cm), ncol = ncol(cm), dimnames = dimnames(cm))
+#       print(round(cm,2))
+#     }else{
+#       cm=faktor()
+#       colnames(cm)=paste("C", 1:ncol(cm),sep = "")
+#       print(round(cm,2))
+#     }},error=function(e){
+#       cat("Waiting..")
+#   })
+#
+#
+# })
+
   ############## This code allows to display the new contrast matrix
   output$new=renderPrint({
     z_new=mydf()
     tryCatch({
       if(is.list(faktor())){
         h <- hypr(faktor(),levels = levels(factor(z_new[,input$in1])))
-        if(input$cont == "Customized") {
+        if(as.numeric(input$hm1)<ncomparisons$hm1) {
           h <- filler_contrasts(h, ncomparisons$hm1)
+          cm = cmat(h, as_fractions = FALSE)
+          cm = matrix(cm, nrow = nrow(cm), ncol = ncol(cm), dimnames = dimnames(cm))
+          #print(round(cm,2))
         } else {
-          names(h) <- paste0("C", seq_along(names(h)))
+          cm = cmat(h, as_fractions = FALSE)
+          cm = matrix(cm, nrow = nrow(cm), ncol = ncol(cm),
+                      dimnames = list(levels(h),paste0("C",1:ncol(cm))))
+          #print(round(cm,2))
         }
-        cm = cmat(h, as_fractions = FALSE)
-        cm = matrix(cm, nrow = nrow(cm), ncol = ncol(cm), dimnames = dimnames(cm))
         print(round(cm,2))
+
       }else{
         cm=faktor()
         colnames(cm)=paste("C", 1:ncol(cm),sep = "")
         print(round(cm,2))
       }},error=function(e){
         cat("Waiting..")
-    })
+      })
 
 
   })
+
 
   ############## This code allows to display the hypothesis matrix related to the new contrast matrix
   output$hypmat=renderPrint({
@@ -470,6 +502,12 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
     )
 
   })
+
+
+  # observeEvent(input$resetAll, {
+  #   shinyjs::reset("int-panel")
+  # })
+
 
   ############## Reactive element that allows to generate the drag-n-drop menu for the "Fully customized 1" option.
   toObserve= reactive({
@@ -1695,6 +1733,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
          # cat("Waiting..")
        })
    })
+
+
 
 
 }

@@ -3,6 +3,8 @@ library(shinythemes, warn.conflicts = FALSE)
 library(DT, warn.conflicts = FALSE)
 library(rhandsontable, warn.conflicts = FALSE)
 library(markdown, warn.conflicts = FALSE)
+#library(shinyjs,warn.conflicts = FALSE)
+
 
 ui = navbarPage("appRiori",
     theme = shinythemes::shinytheme("yeti"),
@@ -169,6 +171,9 @@ ui = navbarPage("appRiori",
   tabPanel("Interactions",
            sidebarLayout(
              sidebarPanel(
+               # shinyjs::useShinyjs(),
+               # id = "int-panel",
+               # actionButton("resetAll", "Reset all"),
                selectInput("radio", label = h3(strong("Step 1: Select the type of design"), style = "font-size:26px;"),
                             choices = c("Two way", "Three way"),
                            selectize=TRUE),
