@@ -285,7 +285,8 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
   output$lev=renderPrint({
     y=mydf()
 
-    cbind(levels(factor(y[,input$in1])))
+    lev_tab=data.frame(V1=cbind(levels(factor(y[,input$in1]))))
+    lev_tab
 
   })
 
