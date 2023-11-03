@@ -1583,6 +1583,9 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
         cat(sep = "\n")
         cat(paste0("contrasts(",fname,"$","Planned_interaction",",","how.many=",ncomparisons$hm2,")","=",faktor2_int()))
         }else{
+        cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
+                     fname,"$",input$v2,", sep = '_'",")"))
+        cat(sep = "\n")
         h <- hypr(facktor_int())
         cat(paste0("h <- ", hypr_call(h)))
         cat(sep = "\n")
@@ -1639,6 +1642,11 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
       cat(paste0("contrasts(",fname,"$","Planned_interaction, how.many =",ncomparisons$hm2,")",
                  "=",faktor2_int()))
       }else{
+      cat(paste0(fname,"$","Planned_interaction","=","interaction(",fname,"$",input$v1,",",
+                   fname,"$",input$v2,",",
+                   fname,"$",input$v3,",",
+                   ", sep = '_'",")"))
+      cat(sep = "\n")
       cat(paste0("h <- ", hypr_call(hypr(facktor_int()))))
       cat(sep = "\n")
       cat(paste0("contrasts(",fname,"$","Planned_interaction, how.many =",ncomparisons$hm2,")",
@@ -1797,22 +1805,22 @@ updateSelectInput(session, "default_data", choices = default_data_labels())
            cat(sep = "\n")
            cat(paste0("For your third variable, you selected ",input$cont3," contrasts."))
          }
-         cat(sep = "\n")
-         if(input$radio=="Two way"){
-         cat(paste0("Remember that, from column C1 to column C",ncol(faktorS1()), " you are examining the comparisons related to the first variable"))
-         cat(sep = "\n")
-         cat(paste0("Remember that, from column C",ncol(faktorS1())+1, " to column C",ncol(faktorS1())+ncol(faktorS2()), " you are examining the comparison related to the second variable"))
-         cat(sep = "\n")
-         cat(paste0("Remember that, the last ",ncol(mat2)-(ncol(faktorS1())+ncol(faktorS2()))-1, " columns refer to the interaction comparisons"))
-         }else{
-           cat(paste0("Remember that, from column C1 to column C",ncol(faktorS1()), " you are examining the comparisons related to the first variable"))
-           cat(sep = "\n")
-           cat(paste0("Remember that, from column C",ncol(faktorS1())+1, " to column C",ncol(faktorS1())+ncol(faktorS2()), " you are examining the comparison related to the second variable"))
-           cat(sep = "\n")
-           cat(paste0("Remember that, from column C",ncol(faktorS1())+ncol(faktorS2())+1, " to column C",ncol(faktorS1())+ncol(faktorS2())+ncol(faktorS3()), " you are examining the comparison related to the third variable"))
-           cat(sep = "\n")
-           cat(paste0("Remember that, the last ",ncol(mat2)-(ncol(faktorS1())+ncol(faktorS2())+ncol(faktorS3()))-1, " columns refer to the interaction comparisons"))
-         }
+         # cat(sep = "\n")
+         # if(input$radio=="Two way"){
+         # cat(paste0("Remember that, from column C1 to column C",ncol(faktorS1()), " you are examining the comparisons related to the first variable"))
+         # cat(sep = "\n")
+         # cat(paste0("Remember that, from column C",ncol(faktorS1())+1, " to column C",ncol(faktorS1())+ncol(faktorS2()), " you are examining the comparison related to the second variable"))
+         # cat(sep = "\n")
+         # cat(paste0("Remember that, the last ",ncol(mat2)-(ncol(faktorS1())+ncol(faktorS2()))-1, " columns refer to the interaction comparisons"))
+         # }else{
+         #   cat(paste0("Remember that, from column C1 to column C",ncol(faktorS1()), " you are examining the comparisons related to the first variable"))
+         #   cat(sep = "\n")
+         #   cat(paste0("Remember that, from column C",ncol(faktorS1())+1, " to column C",ncol(faktorS1())+ncol(faktorS2()), " you are examining the comparison related to the second variable"))
+         #   cat(sep = "\n")
+         #   cat(paste0("Remember that, from column C",ncol(faktorS1())+ncol(faktorS2())+1, " to column C",ncol(faktorS1())+ncol(faktorS2())+ncol(faktorS3()), " you are examining the comparison related to the third variable"))
+         #   cat(sep = "\n")
+         #   cat(paste0("Remember that, the last ",ncol(mat2)-(ncol(faktorS1())+ncol(faktorS2())+ncol(faktorS3()))-1, " columns refer to the interaction comparisons"))
+         # }
          cat(sep = "\n")
          cat(paste0("Interpret the model coefficients accordingly!"))
        }},error=function(e){
