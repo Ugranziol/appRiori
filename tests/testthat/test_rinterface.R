@@ -2,8 +2,7 @@ library(appRiori)
 library(hypr)
 testthat::context("hyper contrast in R")
 tol=.001
-
-
+# test
 data<-datasets::ToothGrowth
 data$dose<-factor(data$dose)
 levels(data$dose)<-c("low","medium","high")
