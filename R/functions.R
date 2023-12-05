@@ -34,7 +34,7 @@ contrasts_summary<-function(model) {
     .res     <-  subset(.summary$coefficients,rownames(.summary$coefficients) %in% .names)
     .fillers <-  attr(.cont,"which_filler")
     if (!is.null(.fillers)) {
-      .index   <-  (1:nrow(.res)!=fillers)
+      .index   <-  (1:nrow(.res)!=.fillers)
       .res     <-  subset(.res,.index)
       .hyp     <-  .hyp[-.fillers]
     }

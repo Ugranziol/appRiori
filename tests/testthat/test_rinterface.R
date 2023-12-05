@@ -16,6 +16,7 @@ testthat::test_that("cmat works", {
 })
 
 model1<-lm(len~supp*dose,data=data)
+summary(model1)
 
 res1<-contrasts_summary(model1)
 
@@ -39,3 +40,13 @@ testthat::test_that("twoway works", {
   testthat::expect_contains(rownames(res2$supp),"~OJ - VC")
   testthat::expect_equal(res2$supp[1,1],3.7,tol)
 })
+
+
+h <- hypr(~1/2 * low + 1/2 * medium - high, levels = c("low", "medium", "high"))
+contrasts(data$dose,how.many=2)<-cmat(h)
+cc3<-contrasts(data$dose)
+
+model3<-lm(len~supp*dose,data=data)
+summary(model3)
+
+contrasts_summary(model3)
