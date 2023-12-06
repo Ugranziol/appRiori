@@ -2,9 +2,15 @@
 % Please edit documentation in R/functions.R
 \name{contrasts_summary}
 \alias{contrasts_summary}
+\alias{contrasts_summary.default}
+\alias{contrasts_summary.merMod}
 \title{Summary for hypr contrasts}
 \usage{
-contrasts_summary(model)
+contrasts_summary(x, ...)
+
+\method{contrasts_summary}{default}(model)
+
+\method{contrasts_summary}{merMod}(model)
 }
 \arguments{
 \item{model}{a model of class \code{\link[stats::lm]{stats::lm}}, \code{\link[stats::lm]{stats::glm}}

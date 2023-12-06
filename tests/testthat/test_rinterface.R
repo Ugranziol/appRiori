@@ -47,6 +47,37 @@ contrasts(data$dose,how.many=2)<-cmat(h)
 cc3<-contrasts(data$dose)
 
 model3<-lm(len~supp*dose,data=data)
-summary(model3)
-
 contrasts_summary(model3)
+
+library(lme4)
+data("sleepstudy")
+sleepstudy$cDays<-cut(sleepstudy$Days,3)
+levels(sleepstudy$cDays)<-c("low","medium","high")
+
+h <- hypr(~1/2 * low + 1/2 * medium - high, levels=c("low","medium","high"))
+contrasts(sleepstudy$cDays,how.many=2)<-cmat(h)
+contrasts(sleepstudy$cDays)
+mod<-lme4::lmer(Reaction ~ cDays + (cDays | Subject), sleepstudy)
+contrasts_summary(mod)
+
+set.seed(101)
+dd <- expand.grid(f1 = factor(1:3),
+                  f2 = LETTERS[1:2], g=1:9, rep=1:15,
+                  KEEP.OUT.ATTRS=FALSE)
+summary(mu <- 5*(-4 + with(dd, as.integer(f1) + 4*as.numeric(f2))))
+dd$y <- rnbinom(nrow(dd), mu = mu, size = 0.5)
+
+require("MASS")## and use its glm.nb() - as indeed we have zero random effect:
+## Not run:
+levels(dd$f1)<-c("low","medium","high")
+
+h <- hypr(~1/2 * low + 1/2 * medium - high, levels=c("low","medium","high"))
+contrasts(dd$f1,how.many=2)<-cmat(h)
+class(contrasts(dd$f1))
+m.glm <- glm.nb(y ~ f1*f2, data=dd, trace=TRUE)
+contrasts_summary(m.glm)
+summary(m.glm)
+m.nb <- glmer.nb(y ~ f1*f2 + (1|g), data=dd, verbose=TRUE)
+terms(m.nb)
+contrasts_summary(m.nb)
+class(m.nb)
