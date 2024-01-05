@@ -158,7 +158,8 @@ These contrasts consist in the reversed version of the Helmert contrasts. The ca
 Assuming $n=3$, the first contrast will encode the difference between the first level with the average of the last two conditions. The second contrast will encode the difference between the last two levels.
 
 $\textbf{Real-life example}$: Suppose to have three soccer teams, A, B and C. Suppose we want to compare the average won competitions of each team, compared to the all the other successive team, taken together. Assuming to start with the team A, we want to compare A __vs__ B and C taken together. Finally we want to compare B __vs__ C won competitions. Reverse helmert contrasts can be very useful!
-# Customized contrasts
+
+## Customized contrasts
 
 In appRiori, you contrast by using a dran-and-drop menu. 
 
@@ -187,6 +188,18 @@ After the last comparison has been set, it is possible to observe the default co
 <img src="www/c1_output.png" alt="drawing" width="1200"/>
 </center>
 
+
+Examining the new contrast matrix, it is possible to observe that some contrasts are labelled with a __T__ letter, while other contrasts are labelled with a __F__ letter. 
+
+Why this?
+
+AppRiori is programmed to define two groups of contrasts:
+
+
+1. **Target contrasts**, namely the ones we want to test (in our example, two)
+2.  **Filler contrasts**, namely orthogonal and completely random contrasts that are created to complete the n-1 contrasts matrix. In this way the statistical model (that would be defined later) can consume the necessary degrees of freedom ($n-1$) that should be expected from the model itself (Cohen, 1968).
+
+ 
 The code corresponding to this procedure is.
 
 <center>
@@ -200,3 +213,7 @@ This logic can be also applied for more than one variable, as in case of interac
 For other fancy ways to customize the..stay tuned!!
 
 In the next panels, two examples are provided, aimed at explaining how to (1) plan the contrasts, (2) use them into a regression model and (3) interpret the results!
+
+## References
+
+Cohen, J. (1968). Multiple regression as a general data-analytic system. Psychological Bulletin, 70 (6p1), 426.
