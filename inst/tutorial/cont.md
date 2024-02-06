@@ -223,7 +223,9 @@ Suppose we want to compare the average won competitions of each team,
 compared to the all the other successive team, taken together. Assuming
 to start with the team A, we want to compare A **vs** B and C taken
 together. Finally we want to compare B **vs** C won competitions.
-Reverse helmert contrasts can be very useful! \# Customized contrasts
+Reverse helmert contrasts can be very useful!
+
+## Customized contrasts
 
 In appRiori, you contrast by using a dran-and-drop menu.
 
@@ -265,6 +267,22 @@ corresponding hypothesis matrix. In our example:
 <img src="www/c1_output.png" alt="drawing" width="1200"/>
 </center>
 
+Examining the new contrast matrix, it is possible to observe that some
+contrasts are labelled with a **T** letter, while other contrasts are
+labelled with a **F** letter.
+
+Why this?
+
+AppRiori is programmed to define two groups of contrasts:
+
+1.  **Target contrasts**, namely the ones we want to test (in our
+    example, two)
+2.  **Filler contrasts**, namely orthogonal and completely random
+    contrasts that are created to complete the n-1 contrasts matrix. In
+    this way the statistical model (that would be defined later) can
+    consume the necessary degrees of freedom (*n* − 1) that should be
+    expected from the model itself (Cohen, 1968).
+
 The code corresponding to this procedure is.
 
 <center>
@@ -282,3 +300,8 @@ For other fancy ways to customize the..stay tuned!!
 In the next panels, two examples are provided, aimed at explaining how
 to (1) plan the contrasts, (2) use them into a regression model and (3)
 interpret the results!
+
+## References
+
+Cohen, J. (1968). Multiple regression as a general data-analytic system.
+Psychological Bulletin, 70 (6p1), 426.
