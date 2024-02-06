@@ -4,6 +4,7 @@
 \alias{contrasts_summary}
 \alias{contrasts_summary.default}
 \alias{contrasts_summary.merMod}
+\alias{contrasts_summary.glmerMod}
 \title{Summary for hypr contrasts}
 \usage{
 contrasts_summary(x, ...)
@@ -11,6 +12,8 @@ contrasts_summary(x, ...)
 \method{contrasts_summary}{default}(model)
 
 \method{contrasts_summary}{merMod}(model)
+
+\method{contrasts_summary}{glmerMod}(model)
 }
 \arguments{
 \item{model}{a model of class \code{\link[stats::lm]{stats::lm}}, \code{\link[stats::lm]{stats::glm}}
