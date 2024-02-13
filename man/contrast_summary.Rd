@@ -7,27 +7,37 @@
 \alias{contrasts_summary.glmerMod}
 \title{Summary for hypr contrasts}
 \usage{
-contrasts_summary(x, ...)
+contrasts_summary(model, ...)
 
-\method{contrasts_summary}{default}(model)
+\method{contrasts_summary}{default}(model, ...)
 
-\method{contrasts_summary}{merMod}(model)
+\method{contrasts_summary}{merMod}(model, ...)
 
-\method{contrasts_summary}{glmerMod}(model)
+\method{contrasts_summary}{glmerMod}(model, ...)
 }
 \arguments{
-\item{model}{a model of class \code{\link[stats::lm]{stats::lm}}, \code{\link[stats::lm]{stats::glm}}
-or \code{\link[lme4::lmer]{lmer::lmer}}}
+\item{model}{a model of class \code{\link[stats]{lm}}, \code{\link[stats]{glm}}
+or \code{\link[lme4]{lmer}}.}
+
+\item{...}{additional options (not used at the moment)}
 }
 \value{
 A results table of class \code{hypr_contrasts_results}.
 }
 \description{
 Extract the estimates and the inferential tests for a contrasts
-defined by \code{\link[hypr::hyper]{hypr::hyper}}
+defined by \code{\link[hypr]{hypr}}
 }
 \examples{
+ library(MASS)
+ df<-MASS::anorexia
+ df$Treat = factor(df$Treat)
+ library ( hypr )
+ h <- hypr ( ~ 1/2 * CBT + 1/2 * FT - Cont , ~ CBT - FT , levels = c( "CBT" , "Cont" , "FT" ))
+ contrasts(df$Treat,how.many=2)<-cmat(h)
+ model = lm ( Prewt ~ Treat , data = df )
+ contrasts_summary ( model )
 
-\dontrun{
-}
+
+
 }

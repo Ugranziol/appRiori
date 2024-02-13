@@ -4,20 +4,17 @@
 \alias{print.hypr_contrasts_results}
 \title{Print for hypr contrasts}
 \usage{
-\method{print}{hypr_contrasts_results}(obj)
+\method{print}{hypr_contrasts_results}(x, ...)
 }
 \arguments{
-\item{an}{object of class \code{hypr_contrasts_results}}
+\item{x}{an object of class \code{hypr_contrasts_results}}
+
+\item{...}{additional options (not used at the moment)}
 }
 \value{
 A results table
 }
 \description{
 Pretty print the estimates and the inferential tests for a contrasts
-defined by \code{\link[hypr::hyper]{hypr::hyper}}
-}
-\examples{
-
-\dontrun{
-}
+defined by \code{\link[hypr]{hypr}}
 }
