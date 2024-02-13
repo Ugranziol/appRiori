@@ -105,6 +105,7 @@ contrasts_summary.merMod<-function(model, ...) {
 #' @rdname contrast_summary
 #' @export
 
+
 contrasts_summary.glmerMod<-function(model,...) contrasts_summary.merMod(model)
 
 #' @title Print for hypr contrasts
