@@ -64,7 +64,7 @@ At this point, appRiori displays the following blocks:
 
 * New contrast matrix: the contrast matrix corresponding to the hypothesis we have. It corresponds to `contrasts(factor(test$G))=MASS:sdif(3)` command.
 
-* Hypothesis matrix: it is a contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020).
+* Hypothesis matrix: it is a contrast matrix where each column codes one condition/group/level and each row codes one hypothesis. Note that Each hypothesis is a set of weights depicting how different condition/group/level means are compared (Schad et al., 2020). In appRiori, the hypothesis matrix is transposed.
 
 * A correlation matrix displaying the relationship among the new contrasts. 
 

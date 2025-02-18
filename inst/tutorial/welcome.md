@@ -32,3 +32,9 @@ The generated contrasts can be used for ANOVAs, linear or generalized (mixed eff
 
 
 Please, have a look at the other Panels to get started with contrasts, to learn about which kind of contrasts can be made and to have a look at some examples!
+
+## Do you want to know more about appRiori and contrast coding?
+-----------------------
+Check this paper:
+
+Granziol, U., Rabe, M., Gallucci, M., Spoto, A., Vidotto, G. (2025). Not Another Post Hoc Paper: A New Look at Contrast Analysis and Planned Comparisons. Advances in Methods and Practices in Psychological Science. 8(1). doi:10.1177/25152459241293110
