@@ -1,0 +1,16 @@
+bibentry(
+  bibtype  = "Article",
+  author   = c(
+    person("Umberto", "Granziol"),
+    person("Maximilian", "Rabe"),
+    person("Andrea", "Spoto"),
+    person("Giulio", "Vidotto"),
+    person("Marcello", "Gallucci")
+  ),
+  title    = "Not Another Post Hoc Paper: A New Look at Contrast Analysis and Planned Comparisons",
+  journal  = "Advances in Methods and Practices in Psychological Science",
+  year     = "2025",
+  volume   = "8",
+  number   = "1",
+  doi      = "10.1177/25152459241293110"
+)

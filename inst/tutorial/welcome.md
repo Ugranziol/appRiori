@@ -7,7 +7,7 @@ This Shiny App is programmed to help you in defining planned comparisons for spe
 Once you defined your planned comparisons, appRiori will provide you the corresponding code that you can insert within your R/ Rstudio before running your analysis!
 
 
-## Why Should I use appRiori?
+Why Should I use appRiori?
 -----------------------
 Usually, scholars and researchers have specific hypotheses about the differences among groups of means. Nonetheless, to test such hypotheses, it is common practice to apply the following strategy: checking the statistics related to the simple and/or interaction effects and then apply post-hoc comparisons to observe if the specific effect is statistically significant.
 
@@ -33,8 +33,8 @@ The generated contrasts can be used for ANOVAs, linear or generalized (mixed eff
 
 Please, have a look at the other Panels to get started with contrasts, to learn about which kind of contrasts can be made and to have a look at some examples!
 
-## Do you want to know more about appRiori and contrast coding?
+Do you want to know more about appRiori and contrast coding?
 -----------------------
 Check this paper:
 
-Granziol, U., Rabe, M., Gallucci, M., Spoto, A., Vidotto, G. (2025). Not Another Post Hoc Paper: A New Look at Contrast Analysis and Planned Comparisons. Advances in Methods and Practices in Psychological Science. 8(1). doi:10.1177/25152459241293110
+Granziol, U., Rabe, M., Gallucci, M., Spoto, A., Vidotto, G. (2025). Not Another Post Hoc Paper: A New Look at Contrast Analysis and Planned Comparisons. Advances in Methods and Practices in Psychological Science. 8(1). [doi:10.1177/25152459241293110](https://dx.doi.org/10.1177/25152459241293110)
