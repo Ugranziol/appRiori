@@ -1,5 +1,5 @@
 Package: appRiori
-Version: 0.0.5
+Version: 0.0.6
 Title: Code and Obtain Customized Planned Comparisons with 'appRiori'
 Authors@R: c(
     person("Umberto", "Granziol", , "umberto.granziol@unipd.it", role = c("aut", "cre")),
